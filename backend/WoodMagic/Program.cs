@@ -1,10 +1,10 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -13,6 +13,12 @@ builder.Logging.AddConsole();
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.TypeInfoResolver = WoodMagicSerializationContext.Default;
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy => policy.WithOrigins("http://localhost:4200"));
 });
 
 var app = builder.Build();
@@ -24,21 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-string[] summaries =
-[
-    "Freezing",
-    "Bracing",
-    "Chilly",
-    "Cool",
-    "Mild",
-    "Warm",
-    "Balmy",
-    "Hot",
-    "Sweltering",
-    "Scorching"
-];
-
 //app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapGet("/", GenValues).WithName("GetProducts").WithOpenApi();
 
@@ -84,6 +77,5 @@ public static partial class Log
         EventId = 0,
         Level = LogLevel.Information,
         Message = "Starting product generation. {product}")]
-    public static partial void ProductInfoSent(
-        this ILogger logger, Product product);
+    public static partial void ProductInfoSent(this ILogger logger, Product product);
 }
