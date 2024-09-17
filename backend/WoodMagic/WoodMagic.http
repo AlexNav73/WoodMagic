@@ -1,0 +1,5 @@
+﻿@WoodMagic_HostAddress = https://localhost:44370
+
+GET {{WoodMagic_HostAddress}}/
+
+###

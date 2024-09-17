@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoodMagic", "WoodMagic\WoodMagic.csproj", "{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2BCFCCC-C6E9-4B90-931C-DB9162D3F7DA}
+	EndGlobalSection
+EndGlobal

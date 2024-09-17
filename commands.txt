@@ -1,0 +1,17 @@
+docker context use default
+
+minikube docker-env
+eval $(minikube -p minikube docker-env)
+
+kubectl apply -f namespace.yaml
+kubectl delete -f namespace.yaml
+
+kubectl apply -f deployment.yaml
+kubectl delete -f deployment.yaml
+
+kubectl apply -f service.yaml
+kubectl delete -f service.yaml
+
+kubectl describe svc woodmagic-service -n development
+
+minikube service -n development woodmagic

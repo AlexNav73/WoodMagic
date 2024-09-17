@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: development
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: woodmagic-frontend
+          image: woodmagic-frontend
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: development
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: woodmagic-backend
+          image: woodmagic-backend
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
