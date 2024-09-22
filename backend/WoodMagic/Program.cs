@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,7 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
+    options.AddPolicy(name: AllowFrontendOriginPolicy,
                       policy => policy.WithOrigins("http://localhost:4200"));
 });
 
@@ -30,8 +30,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
-app.UseCors(MyAllowSpecificOrigins);
+//if (app.Environment.IsProduction())
+//{
+//    app.UseHttpsRedirection();
+//    app.UseHsts();
+//}
+
+app.UseCors(AllowFrontendOriginPolicy);
 
 app.MapGet("/", GenValues).WithName("GetProducts").WithOpenApi();
 
@@ -52,7 +57,7 @@ async IAsyncEnumerable<Product> GenValues(ILogger<Product> logger)
 
         yield return product;
 
-        await Task.Delay(100);
+        await Task.Delay(2000);
     }
 }
 

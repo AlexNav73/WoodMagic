@@ -15,3 +15,15 @@ kubectl delete -f service.yaml
 kubectl describe svc woodmagic-service -n development
 
 minikube service -n development woodmagic
+
+// Enable PowerShell execution
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+// Disable PowerShell execution
+Set-ExecutionPolicy Restricted
+
+
+Recreate Self-Signed certificate:
+
+    1. Open cmd with admin rights
+    2. Navigate to “C:\Program Files (x86)\IIS Express”
+    3. Run "IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:PORT/ -UseSelfSigned" changing PORT for the port you're trying to use.

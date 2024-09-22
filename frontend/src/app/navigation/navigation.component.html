@@ -1,0 +1,32 @@
+<mat-sidenav-container class="sidenav-container" fullscreen>
+  <mat-sidenav #drawer class="sidenav" fixedInViewport autosize>
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <mat-list-item routerLink="/home" routerLinkActive="activebutton">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Home</span>
+      </mat-list-item>
+      <mat-list-item routerLink="/stock" routerLinkActive="activebutton">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Search</span>
+      </mat-list-item>
+      <mat-list-item routerLink="/stock" routerLinkActive="activebutton">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Login</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="mat-elevation-z3" color="primary">
+      <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Wood Magic</span>
+    </mat-toolbar>
+    <ng-content class="content"></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

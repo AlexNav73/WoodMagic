@@ -1,0 +1,9 @@
+@for (product of products; track product.name) {
+    <product [info]="product"></product>
+}
+
+@defer {
+}
+@loading {
+    <div>Loading ...</div>
+}
