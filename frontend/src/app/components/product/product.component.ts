@@ -3,7 +3,7 @@ import { Component, computed, input, InputSignal } from "@angular/core";
 import { MatCardModule } from '@angular/material/card'; 
 import {MatChipsModule} from '@angular/material/chips';
 
-import { Product } from "../../model/product";
+import { IProduct } from "../../model/product";
 
 @Component({
     selector: 'product',
@@ -13,7 +13,7 @@ import { Product } from "../../model/product";
     styleUrl: './product.component.scss'
 })
 export class ProductComponent {
-    info: InputSignal<Product | undefined> = input();
+    info: InputSignal<IProduct | undefined> = input();
 
     name = computed(() => this.info()?.name);
 }

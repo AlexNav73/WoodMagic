@@ -1,26 +1,38 @@
 import { HttpClient } from "@angular/common/http";
-import { Component } from "@angular/core";
+import { Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 
-import { Product } from "../../../model/product";
-import { ProductComponent } from "../../../components/product/product.component";
+import { IProduct } from "../../model/product";
+import { ProductComponent } from "../../components/product/product.component";
+import { SpinnerComponent } from "../../components/spinner/spinner.component";
+import { environment } from "../../../environments/environment";
 
 @Component({
     selector: 'stock',
     standalone: true,
-    imports: [ProductComponent],
+    imports: [ProductComponent, SpinnerComponent],
     templateUrl: './stock.component.html',
     styleUrl: './stock.component.scss'
 })
-export class StockComponent {
-    products: Product[] = [];
+export class StockComponent implements OnInit, OnDestroy {
+    private http = inject(HttpClient);
 
-    constructor(private http: HttpClient) {
-        // This service can now make HTTP requests via `this.http`.  
-    }
+    private subscription!: Subscription;
+
+    isLoading: boolean = false;
+    products: IProduct[] = [];
 
     ngOnInit() {
-        this.http.get<Product[]>('http://localhost:29473').subscribe(products => {
+        this.isLoading = true;
+
+        this.subscription = this.http.get<IProduct[]>(environment.apiUrl).subscribe(products => {
             this.products = products;
+
+            this.isLoading = false;
         });
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 }

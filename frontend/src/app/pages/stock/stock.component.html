@@ -1,9 +1,10 @@
-@for (product of products; track product.name) {
-    <product [info]="product"></product>
-}
+<div class="container">
+    @if (isLoading) {
+        <spinner />
+    } @else {
+        @for (product of products; track product.name) {
+            <product [info]="product"></product>
+        }
+    }
+</div>
 
-@defer {
-}
-@loading {
-    <div>Loading ...</div>
-}

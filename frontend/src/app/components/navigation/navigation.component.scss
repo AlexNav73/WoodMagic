@@ -1,6 +1,3 @@
-:host {
-}
-
 .sidenav-container {
   height: 100%;
 }
@@ -15,8 +12,8 @@
   z-index: 1;
 }
 
-.content {
-  padding: 24px;
+mat-sidenav-content:nth-child(2) {
+  margin-top: 2px;
 }
 
 mat-list-item {
@@ -33,4 +30,8 @@ mat-list-item:hover {
 .activebutton {
   border: 0px solid #020202;
   border-width: 0px 0px 0px 3px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
 }

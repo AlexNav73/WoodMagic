@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    height: fit-content;
+    background-color: rgb(238, 234, 234);
+    border: 1px solid rgb(131, 131, 131);
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.form button {
+    background-color: rgb(174, 175, 238);
+    border: 1px solid rgb(158, 148, 148);
+    color: rgb(47, 26, 240);
+}
+
+.form button:disabled {
+    background-color: rgb(190, 183, 183);
+    border: 1px solid rgb(158, 148, 148);
+    color: rgb(63, 63, 63);
+}

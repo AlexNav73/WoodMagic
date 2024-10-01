@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using WoodMagic;
 
 var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";
 
@@ -18,8 +21,16 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: AllowFrontendOriginPolicy,
-                      policy => policy.WithOrigins("http://localhost:4200"));
+                      policy => policy.WithOrigins("http://localhost:4200")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
 });
+
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseInMemoryDatabase("AppDb"));
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
 
@@ -36,9 +47,12 @@ if (app.Environment.IsDevelopment())
 //    app.UseHsts();
 //}
 
+app.MapIdentityApi<IdentityUser>();
 app.UseCors(AllowFrontendOriginPolicy);
 
 app.MapGet("/", GenValues).WithName("GetProducts").WithOpenApi();
+
+//.RequireAuthorization()
 
 app.Run();
 
@@ -57,7 +71,7 @@ async IAsyncEnumerable<Product> GenValues(ILogger<Product> logger)
 
         yield return product;
 
-        await Task.Delay(2000);
+        await Task.Delay(100);
     }
 }
 
@@ -72,6 +86,7 @@ public record Product(string Name, string ImageUrl, double Price, int Rate, Stat
     PreferredObjectCreationHandling = JsonObjectCreationHandling.Populate,
     WriteIndented = true)]
 [JsonSerializable(typeof(IAsyncEnumerable<Product>))]
+[JsonSerializable(typeof(HttpValidationProblemDetails))]
 public partial class WoodMagicSerializationContext : JsonSerializerContext
 {
 }

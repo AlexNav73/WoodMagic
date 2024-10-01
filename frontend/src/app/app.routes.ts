@@ -2,9 +2,13 @@ import { Routes } from '@angular/router';
 
 import { HomeComponent } from './pages/home/home.component';
 import { StockComponent } from './pages/stock/stock.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: "home", component: HomeComponent },
-    { path: "stock", component: StockComponent }
+    { path: "stock", component: StockComponent },
+    { path: "register", component: RegisterComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: "**", component: NotFoundComponent }
 ];
