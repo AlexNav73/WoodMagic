@@ -8,12 +8,22 @@ import { MatInputModule } from '@angular/material/input';
 import { catchError, Subscription, throwError } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
+import { matchPasswords } from '../../model/validators';
 
-type RegisterResponse = {
+type ErrorType = {
+  [key: string]: string[];
+}
+
+interface RegisterResult {
+  name: 'result';
   type: string;
   title: string;
   status: number;
-  errors: Map<string, string[]>; 
+  errors: ErrorType; 
+}
+
+function isNetworkError(error: RegisterResult | TypeError): error is TypeError {
+  return error.name === 'TypeError';
 }
 
 @Component({
@@ -32,8 +42,10 @@ export class RegisterComponent implements OnDestroy {
 
   form = this.fb.group({
     email: this.fb.control<string>('', [Validators.required, Validators.email]),
-    password: this.fb.control<string>(''),
-    confirmPassword: this.fb.control<string>('')
+    password: this.fb.control<string>('', [Validators.required]),
+    confirmPassword: this.fb.control<string>('', [Validators.required]),
+  }, {
+    validators: [matchPasswords]
   });
   errorMessages: WritableSignal<string[]> = signal([]);
 
@@ -41,22 +53,34 @@ export class RegisterComponent implements OnDestroy {
     return this.form.controls.email;
   }
 
+  get password() {
+    return this.form.controls.password;
+  }
+
+  get confirmPassword() {
+    return this.form.controls.confirmPassword;
+  }
+
   onSubmit() {
-    this.subscription = this.http.post<RegisterResponse|number>(environment.apiUrl + '/register', {
+    this.subscription = this.http.post<RegisterResult | number>(environment.apiUrl + '/register', {
       email: this.email.value,
       password: this.form.controls.password.value
     })
     .pipe(catchError((e: HttpErrorResponse) => {
       this.onError(e.error);
-      return throwError(() => e.error);
+      return throwError(() => 'Test');
     }))
     .subscribe(res => { console.log(res); });
   }
 
-  onError(res: RegisterResponse) {
-    let errors = Array.from(res.errors.values())
-      .reduce((accumulator, value) => accumulator.concat(value), []);
-    this.errorMessages.set(errors);
+  onError(res: RegisterResult | TypeError) {
+    if (isNetworkError(res)) {
+      this.errorMessages.set(['Network error']);
+    } else {
+      let errors = Array.from(Object.values(res.errors))
+        .reduce((accumulator: string[], value) => accumulator.concat(value), []);
+      this.errorMessages.set(errors);
+    }
   }
 
   ngOnDestroy(): void {

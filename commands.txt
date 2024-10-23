@@ -1,3 +1,11 @@
+# Frontend
+
+nvm install latest
+nvm use 23.0.0
+corepack enable
+
+# Deploy
+
 docker context use default
 
 minikube docker-env
@@ -15,6 +23,8 @@ kubectl delete -f service.yaml
 kubectl describe svc woodmagic-service -n development
 
 minikube service -n development woodmagic
+
+# Local
 
 // Enable PowerShell execution
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
