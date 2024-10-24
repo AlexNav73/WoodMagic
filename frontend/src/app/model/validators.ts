@@ -5,5 +5,5 @@ export const matchPasswords: ValidatorFn = (
 ): ValidationErrors | null => {
     return control.value.password === control.value.confirmPassword
         ? null
-        : { PasswordNoMatch: true };
+        : { PasswordNoMatch: ['Passwords don\'t match'] };
 };

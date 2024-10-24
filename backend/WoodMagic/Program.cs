@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
+using System.Security.Claims;
 using System.Text.Json.Serialization;
 using WoodMagic;
 
@@ -10,14 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddProblemDetails();
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.TypeInfoResolver = WoodMagicSerializationContext.Default;
 });
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: AllowFrontendOriginPolicy,
@@ -32,13 +31,20 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 var app = builder.Build();
+
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
 //if (app.Environment.IsProduction())
@@ -47,16 +53,31 @@ if (app.Environment.IsDevelopment())
 //    app.UseHsts();
 //}
 
-app.MapIdentityApi<IdentityUser>();
 app.UseCors(AllowFrontendOriginPolicy);
 
-app.MapGet("/", GenValues).WithName("GetProducts").WithOpenApi();
+app.MapIdentityApi<IdentityUser>();
 
-//.RequireAuthorization()
+app.MapGet("/", GenValues).WithName("GetProducts").WithOpenApi();
+app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager, ClaimsPrincipal user, [FromBody] object empty) =>
+{
+    if (empty != null && user.Identity is { IsAuthenticated: true })
+    {
+        await signInManager.SignOutAsync();
+        if (user.Identity.IsAuthenticated)
+        {
+            return Results.Problem("User is still authenticated");
+        }
+
+        return Results.Ok();
+    }
+    return Results.Unauthorized();
+})
+.WithOpenApi()
+.RequireAuthorization();
 
 app.Run();
 
-async IAsyncEnumerable<Product> GenValues(ILogger<Product> logger)
+static async IAsyncEnumerable<Product> GenValues(ILogger<Product> logger)
 {
     for (var i = 0; i < 5; i++)
     {
@@ -87,6 +108,7 @@ public record Product(string Name, string ImageUrl, double Price, int Rate, Stat
     WriteIndented = true)]
 [JsonSerializable(typeof(IAsyncEnumerable<Product>))]
 [JsonSerializable(typeof(HttpValidationProblemDetails))]
+[JsonSerializable(typeof(ProblemDetails))]
 public partial class WoodMagicSerializationContext : JsonSerializerContext
 {
 }
