@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text.Json.Serialization;
 using WoodMagic;
 
@@ -60,16 +61,16 @@ app.MapIdentityApi<IdentityUser>();
 app.MapGet("/", GenValues).WithName("GetProducts").WithOpenApi();
 app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager, ClaimsPrincipal user, [FromBody] object empty) =>
 {
-    if (empty != null && user.Identity is { IsAuthenticated: true })
+    if (empty != null && signInManager.IsSignedIn(user))
     {
         await signInManager.SignOutAsync();
-        if (user.Identity.IsAuthenticated)
+        if (!signInManager.IsSignedIn(user))
         {
-            return Results.Problem("User is still authenticated");
+            return Results.Problem("The user is still signed in.");
         }
-
         return Results.Ok();
     }
+
     return Results.Unauthorized();
 })
 .WithOpenApi()

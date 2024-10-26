@@ -15,6 +15,20 @@
       "request": "launch",
       "preLaunchTask": "npm: test",
       "url": "http://localhost:9876/debug.html"
+    },
+    {
+      "name": "deno start",
+      "type": "msedge",
+      "request": "launch",
+      "preLaunchTask": "deno: start",
+      "url": "http://localhost:4200/"
+    },
+    {
+      "name": "deno test",
+      "type": "msedge",
+      "request": "launch",
+      "preLaunchTask": "deno: test",
+      "url": "http://localhost:9876/debug.html"
     }
   ]
 }
