@@ -4,6 +4,10 @@ nvm install latest
 nvm use 23.0.0
 corepack enable
 
+yarn cache clean --all
+rm yarn.lock
+yarn install
+
 # Deploy
 
 docker context use default

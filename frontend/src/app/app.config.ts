@@ -9,6 +9,7 @@ import { provideEffects } from '@ngrx/effects';
 import { routes } from './app.routes';
 
 import { AuthEffects } from './store/effects/auth.effects';
+import { StockEffects } from './store/effects/stock.effects';
 import { reducers } from './store/app.states';
 
 export const appConfig: ApplicationConfig = {
@@ -19,6 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
     provideStore(reducers),
-    provideEffects(AuthEffects)
+    provideEffects(AuthEffects, StockEffects)
 ]
 };

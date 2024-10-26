@@ -1,38 +1,35 @@
-import { HttpClient } from "@angular/common/http";
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Component, inject, OnInit } from "@angular/core";
+import { AsyncPipe } from "@angular/common";
 
-import { IProduct } from "../../model/product";
+import { tap } from "rxjs";
+import { Store } from "@ngrx/store";
+
 import { ProductComponent } from "../../components/product/product.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
-import { environment } from "../../../environments/environment";
+import { AppState } from "../../store/app.states";
+import * as StockActions from "../../store/actions/stock.actions";
+import { StockEffects } from "../../store/effects/stock.effects";
 
 @Component({
     selector: 'stock',
     standalone: true,
-    imports: [ProductComponent, SpinnerComponent],
+    imports: [ProductComponent, SpinnerComponent, AsyncPipe],
     templateUrl: './stock.component.html',
     styleUrl: './stock.component.scss'
 })
-export class StockComponent implements OnInit, OnDestroy {
-    private http = inject(HttpClient);
-
-    private subscription!: Subscription;
+export class StockComponent implements OnInit {
+    private store: Store<AppState> = inject(Store<AppState>);
+    private stockEffects = inject(StockEffects);
 
     isLoading: boolean = false;
-    products: IProduct[] = [];
+    products = this.store.select(x => x.stock.products);
+
+    LoadAllSuccess$ = this.stockEffects.LoadAllSuccess$.subscribe(x => {
+        this.isLoading = false;
+    });
 
     ngOnInit() {
         this.isLoading = true;
-
-        this.subscription = this.http.get<IProduct[]>(environment.apiUrl).subscribe(products => {
-            this.products = products;
-
-            this.isLoading = false;
-        });
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this.store.dispatch(StockActions.loadAll());
     }
 }

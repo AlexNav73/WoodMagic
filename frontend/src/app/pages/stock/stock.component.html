@@ -2,7 +2,7 @@
     @if (isLoading) {
         <spinner />
     } @else {
-        @for (product of products; track product.name) {
+        @for (product of products | async; track product.name) {
             <product [info]="product"></product>
         }
     }
