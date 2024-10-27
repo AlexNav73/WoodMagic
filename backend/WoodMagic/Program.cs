@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using System.Security.Principal;
 using System.Text.Json.Serialization;
 using WoodMagic;
+using WoodMagic.Endpoints;
 
 var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";
 
@@ -57,24 +56,9 @@ if (app.Environment.IsDevelopment())
 app.UseCors(AllowFrontendOriginPolicy);
 
 app.MapIdentityApi<IdentityUser>();
+app.MapAuthorizationEndpoints();
 
 app.MapGet("/", GenValues).WithName("GetProducts").WithOpenApi();
-app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager, ClaimsPrincipal user, [FromBody] object empty) =>
-{
-    if (empty != null && signInManager.IsSignedIn(user))
-    {
-        await signInManager.SignOutAsync();
-        if (!signInManager.IsSignedIn(user))
-        {
-            return Results.Problem("The user is still signed in.");
-        }
-        return Results.Ok();
-    }
-
-    return Results.Unauthorized();
-})
-.WithOpenApi()
-.RequireAuthorization();
 
 app.Run();
 
