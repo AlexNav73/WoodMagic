@@ -1,14 +1,12 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { AsyncPipe } from "@angular/common";
 
-import { tap } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import { ProductComponent } from "../../components/product/product.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { AppState } from "../../store/app.states";
 import * as StockActions from "../../store/actions/stock.actions";
-import { StockEffects } from "../../store/effects/stock.effects";
 
 @Component({
   selector: "stock",

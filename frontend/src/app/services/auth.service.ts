@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 
-import { map, Observable, of } from "rxjs";
+import { map, Observable } from "rxjs";
 
 import { environment } from "../../environments/environment";
 import { User } from "../model/user";
@@ -46,13 +46,13 @@ export class AuthService {
       email: email,
       password: password,
     }).pipe(
-      map((result) => {
+      map(() => {
         return { email: email, password: password };
       }),
     );
   }
 
-  logout(token: string): Observable<any> {
+  logout(token: string): Observable<HttpResponse<object>> {
     return this.http.post(environment.apiUrl + "/logout", {}, {
       observe: "response",
       headers: {

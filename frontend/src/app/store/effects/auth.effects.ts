@@ -88,7 +88,7 @@ export class AuthEffects {
   LogOut$ = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.logout),
-      switchMap((action) => {
+      switchMap(() => {
         const token = localStorage.getItem("token");
         return this.authService.logout(token!)
           .pipe(
@@ -108,7 +108,7 @@ export class AuthEffects {
   LogOutSuccess$ = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.logoutSuccess),
-      tap((action) => {
+      tap(() => {
         localStorage.removeItem("token");
       }),
     ), { dispatch: false });
