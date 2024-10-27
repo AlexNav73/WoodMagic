@@ -15,21 +15,21 @@
   <mat-sidenav-content>
     <mat-toolbar class="mat-elevation-z3" color="primary">
       <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()">
-          <mat-icon>menu</mat-icon>
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
       </button>
       <span routerLink="/">Wood Magic</span>
 
       <span class="toolbar-spacer"></span>
-      
+
       <app-auth></app-auth>
     </mat-toolbar>
 
     <!-- Main content -->
     <ng-content></ng-content>
-
   </mat-sidenav-content>
 </mat-sidenav-container>

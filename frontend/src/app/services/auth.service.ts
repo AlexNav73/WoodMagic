@@ -1,13 +1,13 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of } from "rxjs";
 
-import { environment } from '../../environments/environment';
-import { User } from '../model/user';
+import { environment } from "../../environments/environment";
+import { User } from "../model/user";
 
 interface LoginResult {
-  name: 'result';
+  name: "result";
   tokenType: string;
   refreshToken: string;
   expiresIn: number;
@@ -16,46 +16,48 @@ interface LoginResult {
 
 type ErrorType = {
   [key: string]: string[];
-}
+};
 
 interface RegisterResult {
-  name: 'result';
+  name: "result";
   type: string;
   title: string;
   status: number;
   errors: ErrorType;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthService {
   private http = inject(HttpClient);
 
   logIn(email: string, password: string): Observable<User> {
-    return this.http.post<LoginResult>(environment.apiUrl + '/login', {
+    return this.http.post<LoginResult>(environment.apiUrl + "/login", {
       email: email,
-      password: password
+      password: password,
     }).pipe(
-      map(result => {
+      map((result) => {
         return { email: email, password: password, token: result.accessToken };
-      })
+      }),
     );
   }
 
   signUp(email: string, password: string): Observable<User> {
-    return this.http.post<RegisterResult>(environment.apiUrl + '/register', {
+    return this.http.post<RegisterResult>(environment.apiUrl + "/register", {
       email: email,
-      password: password
+      password: password,
     }).pipe(
-      map(result => { return { email: email, password: password }; })
+      map((result) => {
+        return { email: email, password: password };
+      }),
     );
   }
 
   logout(token: string): Observable<any> {
-    return this.http.post(environment.apiUrl + '/logout', { }, {
-      observe: 'response',
+    return this.http.post(environment.apiUrl + "/logout", {}, {
+      observe: "response",
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
 }

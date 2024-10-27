@@ -1,10 +1,9 @@
 <div class="container">
-    @if (isLoading) {
-        <spinner />
-    } @else {
-        @for (product of products | async; track product.name) {
-            <product [info]="product"></product>
-        }
+  @if (isLoading$ | async) {
+    <spinner />
+  } @else {
+    @for (product of products$ | async; track product.name) {
+      <product [info]="product"></product>
     }
+  }
 </div>
-

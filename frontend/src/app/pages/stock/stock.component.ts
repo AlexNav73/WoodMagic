@@ -11,25 +11,19 @@ import * as StockActions from "../../store/actions/stock.actions";
 import { StockEffects } from "../../store/effects/stock.effects";
 
 @Component({
-    selector: 'stock',
-    standalone: true,
-    imports: [ProductComponent, SpinnerComponent, AsyncPipe],
-    templateUrl: './stock.component.html',
-    styleUrl: './stock.component.scss'
+  selector: "stock",
+  standalone: true,
+  imports: [ProductComponent, SpinnerComponent, AsyncPipe],
+  templateUrl: "./stock.component.html",
+  styleUrl: "./stock.component.scss",
 })
 export class StockComponent implements OnInit {
-    private store: Store<AppState> = inject(Store<AppState>);
-    private stockEffects = inject(StockEffects);
+  private store: Store<AppState> = inject(Store<AppState>);
 
-    isLoading: boolean = false;
-    products = this.store.select(x => x.stock.products);
+  isLoading$ = this.store.select((x) => x.stock.isLoading);
+  products$ = this.store.select((x) => x.stock.products);
 
-    LoadAllSuccess$ = this.stockEffects.LoadAllSuccess$.subscribe(x => {
-        this.isLoading = false;
-    });
-
-    ngOnInit() {
-        this.isLoading = true;
-        this.store.dispatch(StockActions.loadAll());
-    }
+  ngOnInit() {
+    this.store.dispatch(StockActions.loadAll());
+  }
 }

@@ -1,5 +1,5 @@
-import * as auth from './reducers/auth.reducers';
-import * as stock from './reducers/stock.reducers';
+import * as auth from "./reducers/auth.reducers";
+import * as stock from "./reducers/stock.reducers";
 
 export interface AppState {
   authState: auth.State;
@@ -7,6 +7,6 @@ export interface AppState {
 }
 
 export const reducers = {
-    authState: auth.reducer,
-    stock: stock.reducer,
-}
+  authState: auth.reducer,
+  stock: stock.reducer,
+};
