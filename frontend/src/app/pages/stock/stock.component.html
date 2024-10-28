@@ -1,9 +1,18 @@
 <div class="container">
-  @if (isLoading$ | async) {
-    <spinner />
-  } @else {
-    @for (product of products$ | async; track product.name) {
-      <product [info]="product"></product>
+  <div class="product-list">
+    @if (isLoading$ | async) {
+      <spinner />
+    } @else {
+      @for (product of products$ | async; track $index) {
+        <product [info]="product"></product>
+      }
     }
-  }
+  </div>
+
+  <mat-paginator [length]="100"
+                 [pageSize]="count"
+                 [pageIndex]="index"
+                 [pageSizeOptions]="[5, 10, 25, 100]"
+                 (page)="onPageSet($event)">
+  </mat-paginator>
 </div>

@@ -18,7 +18,7 @@ export interface State {
 export const reducer = createReducer(
   initialState,
   on(
-    StockActions.loadAll,
+    StockActions.load,
     (state) => ({ ...state, isLoading: true }),
   ),
   on(

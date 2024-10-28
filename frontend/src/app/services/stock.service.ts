@@ -10,7 +10,15 @@ import { IProduct } from "../model/product";
 export class StockService {
   private http = inject(HttpClient);
 
-  public loadAll(): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(environment.apiUrl);
+  public load(page?: number, count?: number): Observable<IProduct[]> {
+    let params = {};
+    if (page) {
+      params = { page };
+    }
+    if (count) {
+      params = { ...params, count };
+    }
+
+    return this.http.get<IProduct[]>(environment.apiUrl, { params });
   }
 }

@@ -13,9 +13,9 @@ export class StockEffects {
 
   LoadAll$ = createEffect(() =>
     this.actions.pipe(
-      ofType(StockActions.loadAll),
-      switchMap(() => {
-        return this.stockService.loadAll().pipe(
+      ofType(StockActions.load),
+      switchMap((action) => {
+        return this.stockService.load(action.page, action.count).pipe(
           map((products) => {
             return StockActions.loadAllSuccess({ products: products });
           }),

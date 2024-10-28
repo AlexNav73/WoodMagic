@@ -7,7 +7,10 @@ export enum StockActionTypes {
   LOAD_FAILURE = "[Stock] Load All FAILURE",
 }
 
-export const loadAll = createAction(StockActionTypes.LOAD_ALL);
+export const load = createAction(
+  StockActionTypes.LOAD_ALL,
+  props<{ page?: number; count?: number; }>()
+);
 export const loadAllSuccess = createAction(
   StockActionTypes.LOAD_SUCCESS,
   props<{ products: IProduct[] }>(),

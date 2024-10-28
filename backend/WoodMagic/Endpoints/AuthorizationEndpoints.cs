@@ -28,9 +28,9 @@ public static class AuthorizationEndpoints
         .WithOpenApi()
         .RequireAuthorization();
 
-        app.MapPost("/isInRole", (ClaimsPrincipal user, [FromBody] string role) =>
+        app.MapPost("/isInRole", async ([FromServices] RoleManager<IdentityUser> roleManager, ClaimsPrincipal user, [FromBody] string role) =>
         {
-            if (role != null)
+            if (role != null && await roleManager.RoleExistsAsync(role))
             {
                 return Results.Ok(user.IsInRole(role));
             }

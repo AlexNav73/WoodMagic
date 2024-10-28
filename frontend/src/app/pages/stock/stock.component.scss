@@ -1,4 +1,6 @@
-.container {
+.product-list {
+  display: inline-flex;
+  flex-wrap: wrap;
   margin-top: 3px;
   width: 100%;
   height: 100%;

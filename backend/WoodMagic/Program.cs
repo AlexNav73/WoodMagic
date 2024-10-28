@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using WoodMagic;
 using WoodMagic.Endpoints;
+using WoodMagic.Model;
 
 var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";
 
@@ -57,36 +58,9 @@ app.UseCors(AllowFrontendOriginPolicy);
 
 app.MapIdentityApi<IdentityUser>();
 app.MapAuthorizationEndpoints();
-
-app.MapGet("/", GenValues).WithName("GetProducts").WithOpenApi();
+app.MapProductsEndpoints();
 
 app.Run();
-
-static async IAsyncEnumerable<Product> GenValues(ILogger<Product> logger)
-{
-    for (var i = 0; i < 5; i++)
-    {
-        var product = new Product(
-            $"Product {i}",
-            $"image-url-{i}",
-            Random.Shared.Next(5, 55),
-            Random.Shared.Next(0, 5),
-            State.Started);
-
-        logger.ProductInfoSent(product);
-
-        yield return product;
-
-        await Task.Delay(100);
-    }
-}
-
-[JsonConverter(typeof(JsonStringEnumConverter<State>))]
-public enum State { Started, Finished }
-
-public record Product(string Name, string ImageUrl, double Price, int Rate, State State)
-{
-}
 
 [JsonSourceGenerationOptions(
     PreferredObjectCreationHandling = JsonObjectCreationHandling.Populate,
@@ -96,13 +70,4 @@ public record Product(string Name, string ImageUrl, double Price, int Rate, Stat
 [JsonSerializable(typeof(ProblemDetails))]
 public partial class WoodMagicSerializationContext : JsonSerializerContext
 {
-}
-
-public static partial class Log
-{
-    [LoggerMessage(
-        EventId = 0,
-        Level = LogLevel.Information,
-        Message = "Starting product generation. {product}")]
-    public static partial void ProductInfoSent(this ILogger logger, Product product);
 }
