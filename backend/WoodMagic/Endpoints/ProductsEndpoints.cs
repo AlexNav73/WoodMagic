@@ -12,13 +12,26 @@ public static partial class Log
     public static partial void ProductInfoSent(this ILogger logger, Product product);
 }
 
+public sealed record ProductList(List<Product> Products, int Count)
+{
+}
+
 public static class ProductsEndpoints
 {
     public static void MapProductsEndpoints(this IEndpointRouteBuilder endpoints)
     {
         var app = endpoints.MapGroup("");
+        app.MapGet("/", async (ILogger<Product> logger, [FromQuery] int page = 0, [FromQuery] int count = 10) =>
+        {
+            var products = new List<Product>();
 
-        app.MapGet("/", GenValues).WithName("GetProducts").WithOpenApi();
+            await foreach (var product in GenValues(logger, page, count))
+            {
+                products.Add(product);
+            }
+
+            return new ProductList(products, 200);
+        }).WithName("GetProducts").WithOpenApi();
     }
 
     private static async IAsyncEnumerable<Product> GenValues(ILogger<Product> logger, [FromQuery] int page = 0, [FromQuery] int count = 10)

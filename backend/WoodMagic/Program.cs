@@ -65,7 +65,8 @@ app.Run();
 [JsonSourceGenerationOptions(
     PreferredObjectCreationHandling = JsonObjectCreationHandling.Populate,
     WriteIndented = true)]
-[JsonSerializable(typeof(IAsyncEnumerable<Product>))]
+[JsonSerializable(typeof(ProductList))]
+[JsonSerializable(typeof(Product))]
 [JsonSerializable(typeof(HttpValidationProblemDetails))]
 [JsonSerializable(typeof(ProblemDetails))]
 public partial class WoodMagicSerializationContext : JsonSerializerContext

@@ -4,13 +4,18 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { environment } from "../../environments/environment";
-import { IProduct } from "../model/product";
+import { Product } from "../model/product.interface";
+
+interface ProductList {
+  products: Product[];
+  count: number;
+}
 
 @Injectable({ providedIn: "root" })
-export class StockService {
+export class CatalogService {
   private http = inject(HttpClient);
 
-  public load(page?: number, count?: number): Observable<IProduct[]> {
+  public load(page?: number, count?: number): Observable<ProductList> {
     let params = {};
     if (page) {
       params = { page };
@@ -19,6 +24,6 @@ export class StockService {
       params = { ...params, count };
     }
 
-    return this.http.get<IProduct[]>(environment.apiUrl, { params });
+    return this.http.get<ProductList>(environment.apiUrl, { params });
   }
 }

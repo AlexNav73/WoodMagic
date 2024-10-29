@@ -44,11 +44,6 @@ export class AuthEffects {
       }),
     ), { dispatch: false });
 
-  LogInFailure$ = createEffect(() =>
-    this.actions.pipe(
-      ofType(AuthActions.loginFailed),
-    ), { dispatch: false });
-
   SignUp$ = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.signUp),
@@ -78,11 +73,6 @@ export class AuthEffects {
         localStorage.setItem("token", action.token);
         this.router.navigateByUrl("/login");
       }),
-    ), { dispatch: false });
-
-  SignUpFailure$ = createEffect(() =>
-    this.actions.pipe(
-      ofType(AuthActions.signUpFailed),
     ), { dispatch: false });
 
   LogOut$ = createEffect(() =>

@@ -2,13 +2,13 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport autosize>
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <mat-list-item routerLink="/home" routerLinkActive="activebutton">
+      <mat-list-item routerLink="/" routerLinkActive="activebutton">
         <mat-icon matListItemIcon>home</mat-icon>
         <span matListItemTitle>Home</span>
       </mat-list-item>
-      <mat-list-item routerLink="/stock" routerLinkActive="activebutton">
+      <mat-list-item routerLink="/catalog" routerLinkActive="activebutton">
         <mat-icon matListItemIcon>home</mat-icon>
-        <span matListItemTitle>Search</span>
+        <span matListItemTitle>Catalog</span>
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
@@ -30,6 +30,9 @@
     </mat-toolbar>
 
     <!-- Main content -->
-    <ng-content></ng-content>
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+
   </mat-sidenav-content>
 </mat-sidenav-container>

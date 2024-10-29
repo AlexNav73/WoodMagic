@@ -1,36 +1,39 @@
 import { createReducer, on } from "@ngrx/store";
 
-import { IProduct } from "../../model/product";
-import * as StockActions from "../actions/stock.actions";
+import { Product } from "../../model/product.interface";
+import * as CatalogActions from "../actions/catalog.actions";
 
 export const initialState: State = {
   isLoading: false,
   products: [],
+  count: 0,
   errorMessage: null,
 };
 
 export interface State {
   isLoading: boolean;
-  products: IProduct[];
+  products: Product[];
+  count: number;
   errorMessage: string | null;
 }
 
 export const reducer = createReducer(
   initialState,
   on(
-    StockActions.load,
+    CatalogActions.load,
     (state) => ({ ...state, isLoading: true }),
   ),
   on(
-    StockActions.loadAllSuccess,
+    CatalogActions.loadSuccess,
     (state, payload) => ({
       ...state,
       isLoading: false,
       products: payload.products,
+      count: payload.count
     }),
   ),
   on(
-    StockActions.loadAllFailed,
+    CatalogActions.loadFailed,
     (state, error) => ({
       ...state,
       isLoading: false,

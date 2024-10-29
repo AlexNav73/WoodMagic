@@ -4,7 +4,7 @@ import { HttpClient, HttpResponse } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 
 import { environment } from "../../environments/environment";
-import { User } from "../model/user";
+import { User } from "../model/user.interface";
 
 interface LoginResult {
   name: "result";

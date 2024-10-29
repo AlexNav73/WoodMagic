@@ -9,26 +9,27 @@ import { Store } from "@ngrx/store";
 import { ProductComponent } from "../../components/product/product.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { AppState } from "../../store/app.states";
-import * as StockActions from "../../store/actions/stock.actions";
+import * as CatalogActions from "../../store/actions/catalog.actions";
 
 @Component({
-  selector: "stock",
+  selector: "catalog",
   standalone: true,
   imports: [MatPaginatorModule, ProductComponent, SpinnerComponent, AsyncPipe],
-  templateUrl: "./stock.component.html",
-  styleUrl: "./stock.component.scss",
+  templateUrl: "./catalog.component.html",
+  styleUrl: "./catalog.component.scss",
 })
-export class StockComponent implements OnInit, OnDestroy {
+export class CatalogComponent implements OnInit, OnDestroy {
   private store: Store<AppState> = inject(Store<AppState>);
   private route = inject(ActivatedRoute);
 
   private subscription?: Subscription;
 
-  isLoading$ = this.store.select((x) => x.stock.isLoading);
-  products$ = this.store.select((x) => x.stock.products);
+  isLoading$ = this.store.select((x) => x.catalog.isLoading);
+  products$ = this.store.select((x) => x.catalog.products);
+  length$ = this.store.select((x) => x.catalog.count);
 
-  index: number = 0;
-  count: number = 10;
+  pageIndex: number = 0;
+  pageSize: number = 10;
 
   ngOnInit() {
     this.subscription = this.route.queryParamMap.subscribe(params => {
@@ -41,17 +42,17 @@ export class StockComponent implements OnInit, OnDestroy {
           count = Number(params.get("count"));
         }
 
-        this.index = page ?? 0;
-        this.count = count ?? 10;
-        this.store.dispatch(StockActions.load({ page, count }));
+        this.pageIndex = page ?? 0;
+        this.pageSize = count ?? 10;
+        this.store.dispatch(CatalogActions.load({ page, count }));
     });
   }
 
   onPageSet(e: PageEvent) {
-    this.count = e.pageSize;
-    this.index = e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
 
-    this.store.dispatch(StockActions.load({ page: this.index, count: this.count }));
+    this.store.dispatch(CatalogActions.load({ page: this.pageIndex, count: this.pageSize }));
   }
 
   ngOnDestroy(): void {

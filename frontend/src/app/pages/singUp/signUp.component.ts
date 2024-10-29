@@ -11,7 +11,7 @@ import { MatInputModule } from "@angular/material/input";
 
 import { Store } from "@ngrx/store";
 
-import { matchPasswords } from "../../model/validators";
+import { matchPasswords } from "../../validators/validators";
 import { AppState } from "../../store/app.states";
 import { signUp } from "../../store/actions/auth.actions";
 

@@ -1,11 +1,11 @@
-export class User {
+export interface User {
   id?: string;
   email?: string;
   password?: string;
   token?: string;
 }
 
-export class Credentials {
+export interface Credentials {
   email?: string;
   password?: string;
 }
