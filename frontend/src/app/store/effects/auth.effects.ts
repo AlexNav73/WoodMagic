@@ -38,9 +38,8 @@ export class AuthEffects {
   LogInSuccess$ = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.loginSuccess),
-      tap((action) => {
-        localStorage.setItem("token", action.token);
-        this.router.navigateByUrl("/home");
+      tap(() => {
+        this.router.navigateByUrl("/");
       }),
     ), { dispatch: false });
 
@@ -69,8 +68,7 @@ export class AuthEffects {
   SignUpSuccess$ = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.signUpSuccess),
-      tap((action) => {
-        localStorage.setItem("token", action.token);
+      tap(() => {
         this.router.navigateByUrl("/login");
       }),
     ), { dispatch: false });
@@ -79,8 +77,7 @@ export class AuthEffects {
     this.actions.pipe(
       ofType(AuthActions.logout),
       switchMap(() => {
-        const token = localStorage.getItem("token");
-        return this.authService.logout(token!)
+        return this.authService.logout()
           .pipe(
             map((result) => {
               console.log(result);
@@ -94,12 +91,4 @@ export class AuthEffects {
       }),
     )
   );
-
-  LogOutSuccess$ = createEffect(() =>
-    this.actions.pipe(
-      ofType(AuthActions.logoutSuccess),
-      tap(() => {
-        localStorage.removeItem("token");
-      }),
-    ), { dispatch: false });
 }

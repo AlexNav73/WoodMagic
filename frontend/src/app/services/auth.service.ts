@@ -52,12 +52,9 @@ export class AuthService {
     );
   }
 
-  logout(token: string): Observable<HttpResponse<object>> {
+  logout(): Observable<HttpResponse<object>> {
     return this.http.post(environment.apiUrl + "/logout", {}, {
       observe: "response",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
   }
 }
