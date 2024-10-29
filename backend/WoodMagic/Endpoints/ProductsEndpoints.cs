@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WoodMagic.Model;
+using WoodMagic.Services;
 
 namespace WoodMagic.Endpoints;
 
@@ -20,36 +21,27 @@ public static class ProductsEndpoints
 {
     public static void MapProductsEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        var app = endpoints.MapGroup("");
-        app.MapGet("/", async (ILogger<Product> logger, [FromQuery] int page = 0, [FromQuery] int count = 10) =>
+        var app = endpoints.MapGroup("products");
+        app.MapGet("/load", async ([FromServices] IProductService productService, [FromQuery] int page = 0, [FromQuery] int count = 10) =>
         {
-            var products = new List<Product>();
-
-            await foreach (var product in GenValues(logger, page, count))
-            {
-                products.Add(product);
-            }
-
-            return new ProductList(products, 200);
+            return new ProductList(
+                await productService.LoadAsync(page, count),
+                await productService.GetProductCountAsync());
         }).WithName("GetProducts").WithOpenApi();
-    }
 
-    private static async IAsyncEnumerable<Product> GenValues(ILogger<Product> logger, [FromQuery] int page = 0, [FromQuery] int count = 10)
-    {
-        for (var i = page * count; i < (page * count) + count; i++)
+        app.MapGet("/{id}", async ([FromServices] IProductService productService, [FromRoute] Guid id) =>
         {
-            var product = new Product(
-                $"Product {i}",
-                $"image-url-{i}",
-                Random.Shared.Next(5, 55),
-                Random.Shared.Next(0, 5),
-                State.Started);
+            return await productService.GetProductByIdAsync(id);
+        }).WithName("GetProductById").WithOpenApi();
 
-            logger.ProductInfoSent(product);
+        app.MapPost("/add", async ([FromServices] IProductService productService, [FromBody] Product product) =>
+        {
+            await productService.CreateAsync(product);
+        }).WithName("CreateProduct").WithOpenApi().RequireAuthorization();
 
-            yield return product;
-
-            await Task.Delay(100);
-        }
+        app.MapPost("/update", async ([FromServices] IProductService productService, [FromBody] Product product) =>
+        {
+            await productService.UpdateAsync(product);
+        }).WithName("UpdateProduct").WithOpenApi().RequireAuthorization();
     }
 }

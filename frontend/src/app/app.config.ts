@@ -13,6 +13,7 @@ import { authInterceptor } from "./interceptors/auth.interceptor";
 import { AuthEffects } from "./store/effects/auth.effects";
 import { CatalogEffects } from "./store/effects/catalog.effects";
 import { reducers } from "./store/app.states";
+import { ProductEffects } from "./store/effects/product.effects";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideAnimationsAsync(),
     provideStore(reducers),
-    provideEffects(AuthEffects, CatalogEffects),
+    provideEffects(AuthEffects, CatalogEffects, ProductEffects),
   ],
 };

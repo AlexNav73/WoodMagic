@@ -1,9 +1,9 @@
 <mat-card class="product-card" appearance="outlined">
-  <mat-card-header>
+  <mat-card-header [routerLink]="['/product', id()]">
     <mat-card-title>{{ name() }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <p>Lorem ipsum</p>
+    <span>Price: {{ price() }}</span>
   </mat-card-content>
   <mat-card-footer class="product-card-footer">
     <mat-chip-set aria-label="labels">
@@ -12,4 +12,9 @@
       <mat-chip>sassy</mat-chip>
     </mat-chip-set>
   </mat-card-footer>
+  <mat-card-actions>
+    @if (isAuthenticated$ | async) {
+      <a mat-button [routerLink]="['/product/edit', id()]">Edit</a>
+    }
+  </mat-card-actions>
 </mat-card>

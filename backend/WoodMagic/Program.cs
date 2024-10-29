@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using WoodMagic;
 using WoodMagic.Endpoints;
 using WoodMagic.Model;
+using WoodMagic.Services;
 
 var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";
 
@@ -26,11 +27,13 @@ builder.Services.AddCors(options =>
                                       .AllowAnyMethod());
 });
 
-builder.Services.AddDbContext<ApplicationDbContext>(
+builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(
     options => options.UseSqlite("Data Source=database.db"));
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddTransient<IProductService, ProductService>();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();

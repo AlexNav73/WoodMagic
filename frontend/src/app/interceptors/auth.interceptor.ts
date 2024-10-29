@@ -9,7 +9,7 @@ import { AppState } from '../store/app.states';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const store: Store<AppState> = inject(Store<AppState>);
 
-  return store.select(x => x.authState.user)
+  return store.select(x => x.auth.user)
     .pipe(
       first(),
       mergeMap((user) => {

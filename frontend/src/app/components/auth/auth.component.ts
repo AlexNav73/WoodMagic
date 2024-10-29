@@ -25,7 +25,7 @@ export class AuthComponent {
   private store = inject(Store<AppState>);
 
   isAuthenticated$: Observable<boolean> = this.store
-    .select((state) => state.authState.isAuthenticated);
+    .select((state) => state.auth.isAuthenticated);
 
   onLogout() {
     this.store.dispatch(logout());

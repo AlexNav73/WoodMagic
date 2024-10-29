@@ -1,6 +1,16 @@
-﻿namespace WoodMagic.Model
+﻿namespace WoodMagic.Model;
+
+public sealed class Product
 {
-    public record Product(string Name, string ImageUrl, double Price, int Rate, State State)
-    {
-    }
+    public Guid Id { get; set; }
+
+    public string? Name { get; set; }
+
+    public string? ImageUrl { get; set; }
+
+    public double Price { get; set; }
+
+    public int Rate { get; set; }
+
+    public State State { get; set; }
 }

@@ -6,7 +6,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
-import { ProductComponent } from "../../components/product/product.component";
+import { ProductComponent } from "./product/product.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { AppState } from "../../store/app.states";
 import * as CatalogActions from "../../store/actions/catalog.actions";
