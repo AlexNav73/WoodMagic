@@ -1,8 +1,8 @@
-﻿namespace WoodMagic.Model;
+﻿namespace WoodMagic.Core.Model;
 
 public sealed class Product
 {
-    public Guid Id { get; set; }
+    public string? Id { get; set; }
 
     public string? Name { get; set; }
 

@@ -32,7 +32,7 @@ export class AddProductComponent extends EditProductBaseComponent {
 
   override onSubmit() {
     const product: Product = {
-      id: "",
+      id: null,
       name: this.name.value,
       imageUrl: "",
       price: this.price.value,

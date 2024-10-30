@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WoodMagic.Model;
 
-namespace WoodMagic;
+namespace WoodMagic.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>, IApplicationDbContext
+public sealed class IdentityDbContext : IdentityDbContext<IdentityUser>, IIdentityDbContext
 {
-    public DbSet<Product> Products { get; set; }
-
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
+    public IdentityDbContext(DbContextOptions<IdentityDbContext> options) :
         base(options)
     { }
 
@@ -24,7 +21,5 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>, IApplicatio
         builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
         builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
         builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
-
-        builder.Entity<Product>().HasKey(p => p.Id);
     }
 }

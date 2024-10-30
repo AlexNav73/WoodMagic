@@ -1,6 +1,6 @@
-﻿using WoodMagic.Model;
+﻿using WoodMagic.Core.Model;
 
-namespace WoodMagic.Services;
+namespace WoodMagic.Core.Services;
 
 public interface IProductService
 {
@@ -13,4 +13,6 @@ public interface IProductService
     Task<int> GetProductCountAsync();
 
     Task<List<Product>> LoadAsync(int page, int count);
+
+    Task<int> DeleteAsync(Guid id);
 }

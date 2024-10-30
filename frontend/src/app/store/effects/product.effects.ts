@@ -13,7 +13,7 @@ export class ProductEffects {
   private catalogService = inject(CatalogService);
   private route = inject(Router);
 
-  Load$ = createEffect(() =>
+  Create$ = createEffect(() =>
     this.actions.pipe(
       ofType(ProductActions.create),
       switchMap((product) => {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WoodMagic.Model;
-using WoodMagic.Services;
+using WoodMagic.Core.Model;
+using WoodMagic.Core.Services;
 
 namespace WoodMagic.Endpoints;
 

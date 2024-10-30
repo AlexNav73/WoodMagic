@@ -32,5 +32,5 @@ import { AppState } from "../../store/app.states";
 export class NavigationComponent {
   private store: Store<AppState> = inject(Store<AppState>);
 
-  isAuthorized$ = this.store.select(x => x.auth.isAuthenticated);
+  isAuthenticated$ = this.store.select(x => x.auth.isAuthenticated);
 }

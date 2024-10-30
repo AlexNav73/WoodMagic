@@ -11,7 +11,7 @@ export class CatalogEffects {
   private actions = inject(Actions);
   private catalogService = inject(CatalogService);
 
-  LoadAll$ = createEffect(() =>
+  Load$ = createEffect(() =>
     this.actions.pipe(
       ofType(CatalogActions.load),
       switchMap((action) => {

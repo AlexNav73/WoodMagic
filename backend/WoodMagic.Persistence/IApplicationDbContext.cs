@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WoodMagic.Model;
+using WoodMagic.Persistence.Entities;
 
-namespace WoodMagic;
+namespace WoodMagic.Persistence;
 
 public interface IApplicationDbContext
 {

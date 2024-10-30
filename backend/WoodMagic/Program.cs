@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
-using WoodMagic;
 using WoodMagic.Endpoints;
-using WoodMagic.Model;
-using WoodMagic.Services;
+using WoodMagic.Persistence;
 
 var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";
 
@@ -27,13 +23,17 @@ builder.Services.AddCors(options =>
                                       .AllowAnyMethod());
 });
 
-builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(
-    options => options.UseSqlite("Data Source=database.db"));
+builder.Services.AddApplicationDbContext(
+    options => options.UseSqlite(builder.Configuration.GetConnectionString("Default"),
+    x => x.MigrationsAssembly("WoodMagic.Persistence")));
+builder.Services.AddDbContext<IIdentityDbContext, IdentityDbContext>(
+    options => options.UseSqlite(builder.Configuration.GetConnectionString("Default"),
+    x => x.MigrationsAssembly("WoodMagic.Persistence")));
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<IdentityDbContext>();
 
-builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddPersistenceServices();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
@@ -64,14 +64,3 @@ app.MapAuthorizationEndpoints();
 app.MapProductsEndpoints();
 
 app.Run();
-
-[JsonSourceGenerationOptions(
-    PreferredObjectCreationHandling = JsonObjectCreationHandling.Populate,
-    WriteIndented = true)]
-[JsonSerializable(typeof(ProductList))]
-[JsonSerializable(typeof(Product))]
-[JsonSerializable(typeof(HttpValidationProblemDetails))]
-[JsonSerializable(typeof(ProblemDetails))]
-public partial class WoodMagicSerializationContext : JsonSerializerContext
-{
-}

@@ -10,9 +10,9 @@ import { routes } from "./app.routes";
 
 import { authInterceptor } from "./interceptors/auth.interceptor";
 
+import { reducers } from "./store/app.states";
 import { AuthEffects } from "./store/effects/auth.effects";
 import { CatalogEffects } from "./store/effects/catalog.effects";
-import { reducers } from "./store/app.states";
 import { ProductEffects } from "./store/effects/product.effects";
 
 export const appConfig: ApplicationConfig = {

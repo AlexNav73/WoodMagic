@@ -8,6 +8,13 @@ yarn cache clean --all
 rm yarn.lock
 yarn install
 
+# Database Migrations
+
+Add-Migration -Context IdentityDbContext -OutputDir Migrations\Identity AddedIdentityTables
+Add-Migration -Context ApplicationDbContext -OutputDir Migrations\Application AddedProductsTable
+Update-Database -Context ApplicationDbContext
+Update-Database -Context IdentityDbContext
+
 # Deploy
 
 docker context use default

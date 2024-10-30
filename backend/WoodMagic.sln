@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoodMagic", "WoodMagic\WoodMagic.csproj", "{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WoodMagic", "WoodMagic\WoodMagic.csproj", "{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoodMagic.Core", "WoodMagic.Core\WoodMagic.Core.csproj", "{F0E2B415-5BD8-4097-91AA-86704C2E8635}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoodMagic.Persistence", "WoodMagic.Persistence\WoodMagic.Persistence.csproj", "{0FF9B68E-52B8-43A8-A0D3-79219B7A0CD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0E2B415-5BD8-4097-91AA-86704C2E8635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0E2B415-5BD8-4097-91AA-86704C2E8635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0E2B415-5BD8-4097-91AA-86704C2E8635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0E2B415-5BD8-4097-91AA-86704C2E8635}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FF9B68E-52B8-43A8-A0D3-79219B7A0CD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF9B68E-52B8-43A8-A0D3-79219B7A0CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF9B68E-52B8-43A8-A0D3-79219B7A0CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF9B68E-52B8-43A8-A0D3-79219B7A0CD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

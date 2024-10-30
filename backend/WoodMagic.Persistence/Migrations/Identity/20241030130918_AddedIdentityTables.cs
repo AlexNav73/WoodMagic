@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WoodMagic.Migrations
+namespace WoodMagic.Persistence.Migrations.Identity
 {
     /// <inheritdoc />
-    public partial class AddedIdentity : Migration
+    public partial class AddedIdentityTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
