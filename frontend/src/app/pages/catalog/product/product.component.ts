@@ -9,6 +9,7 @@ import { Store } from "@ngrx/store";
 
 import { Product } from "../../../model/product.interface";
 import { AppState } from "../../../store/app.states";
+import * as ProductActions from "../../../store/actions/product.actions";
 
 @Component({
   selector: "product",
@@ -27,4 +28,8 @@ export class ProductComponent {
   id = computed(() => this.info()?.id);
   name = computed(() => this.info()?.name);
   price = computed(() => this.info()?.price);
+
+  onDelete() {
+    this.store.dispatch(ProductActions.deleteProduct({ id: this.id()! }));
+  }
 }

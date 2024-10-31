@@ -38,4 +38,11 @@ export class CatalogService {
       observe: "response"
     });
   }
+
+  public delete(id: string): Observable<HttpResponse<unknown>> {
+    return this.http.post(environment.apiUrl + "/products/delete", {}, {
+      observe: "response",
+      params: { id }
+    });
+  }
 }

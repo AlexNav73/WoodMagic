@@ -43,5 +43,10 @@ public static class ProductsEndpoints
         {
             await productService.UpdateAsync(product);
         }).WithName("UpdateProduct").WithOpenApi().RequireAuthorization();
+
+        app.MapPost("/delete", async ([FromServices] IProductService productService, [FromQuery] Guid id) =>
+        {
+            await productService.DeleteAsync(id);
+        }).WithName("DeleteProduct").WithOpenApi().RequireAuthorization();
     }
 }

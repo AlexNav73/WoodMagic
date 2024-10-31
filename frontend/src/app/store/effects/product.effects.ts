@@ -30,28 +30,49 @@ export class ProductEffects {
 
   CreateSuccess$ = createEffect(() =>
     this.actions.pipe(
-        ofType(ProductActions.createSuccess),
-        tap(() => this.route.navigateByUrl("/"))
+      ofType(ProductActions.createSuccess),
+      tap(() => this.route.navigateByUrl("/"))
     ), { dispatch: false });
 
   Update$ = createEffect(() =>
     this.actions.pipe(
-        ofType(ProductActions.update),
-        switchMap((product) => {
-            return this.catalogService.update(product).pipe(
-                map(() => ProductActions.updateSuccess()),
-                catchError((error) => {
-                    console.log(error.error);
-                    return of(ProductActions.updateFailed({ reason: "REASON" }));
-                })
-            )
-        })
+      ofType(ProductActions.update),
+      switchMap((product) => {
+        return this.catalogService.update(product).pipe(
+          map(() => ProductActions.updateSuccess()),
+          catchError((error) => {
+            console.log(error.error);
+            return of(ProductActions.updateFailed({ reason: "REASON" }));
+          })
+        )
+      })
     )
   );
 
   UpdateSuccess$ = createEffect(() =>
     this.actions.pipe(
-        ofType(ProductActions.updateSuccess),
-        tap(() => this.route.navigateByUrl("/"))
+      ofType(ProductActions.updateSuccess),
+      tap(() => this.route.navigateByUrl("/"))
+    ), { dispatch: false });
+
+  Delete$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(ProductActions.deleteProduct),
+      switchMap((action) => {
+        return this.catalogService.delete(action.id).pipe(
+          map(() => ProductActions.deleteSuccess()),
+          catchError((error) => {
+            console.log(error.error);
+            return of(ProductActions.deleteFailed({ reason: "REASON" }));
+          })
+        )
+      })
+    )
+  );
+
+  DeleteSuccess$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(ProductActions.deleteSuccess),
+      tap(() => this.route.navigateByUrl("/"))
     ), { dispatch: false });
 }

@@ -9,6 +9,9 @@ export enum ProductActionTypes {
   UPDATE = "[Product] Update",
   UPDATE_SUCCESS = "[Product] Update SUCCESS",
   UPDATE_FAILURE = "[Product] Update FAILURE",
+  DELETE = "[Product] Delete",
+  DELETE_SUCCESS = "[Product] Delete SUCCESS",
+  DELETE_FAILURE = "[Product] Delete FAILURE",
 }
 
 export const create = createAction(
@@ -28,5 +31,15 @@ export const update = createAction(
 export const updateSuccess = createAction(ProductActionTypes.UPDATE_SUCCESS);
 export const updateFailed = createAction(
     ProductActionTypes.UPDATE_FAILURE,
+    props<{ reason: string }>(),
+);
+
+export const deleteProduct = createAction(
+    ProductActionTypes.DELETE,
+    props<{ id: string; }>()
+);
+export const deleteSuccess = createAction(ProductActionTypes.DELETE_SUCCESS);
+export const deleteFailed = createAction(
+    ProductActionTypes.DELETE_FAILURE,
     props<{ reason: string }>(),
 );
