@@ -1,6 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 
-import { Credentials } from "../../model/user.interface";
+import { Credentials } from "../../model/credentials.interface";
 
 export enum AuthActionTypes {
   LOGIN = "[Auth] Login",
@@ -12,16 +12,15 @@ export enum AuthActionTypes {
   LOGOUT = "[Auth] Logout",
   LOGOUT_SUCCESS = "[Auth] Logout Success",
   LOGOUT_FAILURE = "[Auth] Logout Failure",
-}
-
-export enum AuthFailure {
-  NETWORK = "Network issue",
+  UPDATE_CREDENTIALS = "[Auth] Update Credentials",
+  UPDATE_CREDENTIALS_SUCCESS = "[Auth] Update Credentials Success",
+  UPDATE_CREDENTIALS_FAILED = "[Auth] Update Credentials Failure",
 }
 
 export const login = createAction(AuthActionTypes.LOGIN, props<Credentials>());
 export const loginSuccess = createAction(
   AuthActionTypes.LOGIN_SUCCESS,
-  props<{ token: string; email: string }>(),
+  props<{ email: string }>(),
 );
 export const loginFailed = createAction(
   AuthActionTypes.LOGIN_FAILURE,
@@ -34,7 +33,7 @@ export const signUp = createAction(
 );
 export const signUpSuccess = createAction(
   AuthActionTypes.SIGNUP_SUCCESS,
-  props<{ token: string; email: string }>(),
+  props<{ email: string }>(),
 );
 export const signUpFailed = createAction(
   AuthActionTypes.SIGNUP_FAILURE,
@@ -47,3 +46,10 @@ export const logoutFailed = createAction(
   AuthActionTypes.LOGOUT_FAILURE,
   props<{ reason: string }>(),
 );
+
+export const updateCredentials = createAction(AuthActionTypes.UPDATE_CREDENTIALS);
+export const updateCredentialsSuccess = createAction(
+  AuthActionTypes.UPDATE_CREDENTIALS_SUCCESS,
+  props<{ email: string; }>(),
+);
+export const updateCredentialsFailed = createAction(AuthActionTypes.UPDATE_CREDENTIALS_FAILED);

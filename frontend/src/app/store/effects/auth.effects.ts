@@ -21,10 +21,7 @@ export class AuthEffects {
           .pipe(
             map((user) => {
               console.log(user);
-              return AuthActions.loginSuccess({
-                token: user.token!,
-                email: action.email!,
-              });
+              return AuthActions.loginSuccess({ email: action.email! });
             }),
             catchError((error) => {
               console.log(error.error);
@@ -51,10 +48,7 @@ export class AuthEffects {
           .pipe(
             map((result) => {
               console.log(result);
-              return AuthActions.signUpSuccess({
-                token: result.token!,
-                email: action.email!,
-              });
+              return AuthActions.signUpSuccess({ email: action.email! });
             }),
             catchError((error) => {
               console.log(error.error);
@@ -89,6 +83,30 @@ export class AuthEffects {
             }),
           );
       }),
+    )
+  );
+
+  LogOutSuccess$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(AuthActions.logoutSuccess),
+      tap(() => {
+        this.router.navigateByUrl("/");
+      })
+    ), { dispatch: false });
+
+  Update$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(AuthActions.updateCredentials),
+      switchMap(() => {
+        return this.authService.getUser()
+          .pipe(
+            map((user) => AuthActions.updateCredentialsSuccess({ email: user })),
+            catchError((error) => {
+              console.log(error);
+              return of(AuthActions.updateCredentialsFailed());
+            })
+          );
+      })
     )
   );
 }

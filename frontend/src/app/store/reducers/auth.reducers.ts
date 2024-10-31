@@ -1,11 +1,9 @@
 import { createReducer, on } from "@ngrx/store";
 
-import { User } from "../../model/user.interface";
 import * as AuthActions from "../actions/auth.actions";
 
 export const initialState: State = {
   isAuthenticated: false,
-  isAdmin: false,
   user: null,
   errorMessage: null,
 };
@@ -13,10 +11,8 @@ export const initialState: State = {
 export interface State {
   // is a user authenticated?
   isAuthenticated: boolean;
-  // is a user authenticated?
-  isAdmin: boolean;
   // if authenticated, there should be a user object
-  user: User | null;
+  user: string | null;
   // error message
   errorMessage: string | null;
 }
@@ -28,7 +24,7 @@ export const reducer = createReducer(
     (state, payload) => ({
       ...state,
       isAuthenticated: true,
-      user: { email: payload.email, token: payload.token },
+      user: payload.email,
     }),
   ),
   on(
@@ -39,7 +35,7 @@ export const reducer = createReducer(
     AuthActions.signUpSuccess,
     (state, payload) => ({
       ...state,
-      user: { email: payload.email, token: payload.token },
+      user: payload.email,
     }),
   ),
   on(
@@ -50,4 +46,8 @@ export const reducer = createReducer(
     AuthActions.logoutSuccess,
     () => initialState,
   ),
+  on(
+    AuthActions.updateCredentialsSuccess,
+    (state, payload) => ({ ...state, isAuthenticated: true, user: payload.email })
+  )
 );

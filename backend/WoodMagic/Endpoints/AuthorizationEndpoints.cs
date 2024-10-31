@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using WoodMagic.Models;
 
 namespace WoodMagic.Endpoints;
 
@@ -12,7 +13,7 @@ public static class AuthorizationEndpoints
 
         app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager, ClaimsPrincipal user, [FromBody] object? empty) =>
         {
-            if (empty != null && signInManager.IsSignedIn(user))
+            if (empty != null)
             {
                 await signInManager.SignOutAsync();
                 if (!signInManager.IsSignedIn(user))
@@ -23,10 +24,16 @@ public static class AuthorizationEndpoints
                 return Results.Ok();
             }
 
-            return Results.Unauthorized();
+            return Results.Problem("The body should be an empty object");
         })
+        .WithName("Logout")
         .WithOpenApi()
         .RequireAuthorization();
+
+        app.MapGet("/user", (ClaimsPrincipal user) => Results.Ok(user.FindFirstValue(ClaimTypes.Email)))
+            .WithName("GetUser")
+            .WithOpenApi()
+            .RequireAuthorization();
 
         app.MapPost("/isInRole", async ([FromServices] RoleManager<IdentityUser> roleManager, ClaimsPrincipal user, [FromBody] string role) =>
         {

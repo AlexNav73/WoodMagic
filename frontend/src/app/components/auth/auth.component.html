@@ -1,6 +1,7 @@
+<span>{{ email$ | async }}</span>
 @if (isAuthenticated$ | async) {
-  <button mat-stroked-button (click)="onLogout()">Logout</button>
+<button mat-stroked-button (click)="onLogout()">Logout</button>
 } @else {
-  <a mat-stroked-button routerLink="/login">Login</a>
-  <a mat-flat-button routerLink="/register">Register</a>
+<a mat-stroked-button routerLink="/login">Login</a>
+<a mat-flat-button routerLink="/register">Register</a>
 }

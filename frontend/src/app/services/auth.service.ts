@@ -1,10 +1,9 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 
-import { map, Observable } from "rxjs";
+import { map, Observable, of } from "rxjs";
 
 import { environment } from "../../environments/environment";
-import { User } from "../model/user.interface";
 
 interface LoginResult {
   name: "result";
@@ -30,31 +29,35 @@ interface RegisterResult {
 export class AuthService {
   private http = inject(HttpClient);
 
-  logIn(email: string, password: string): Observable<User> {
-    return this.http.post<LoginResult>(environment.apiUrl + "/login", {
+  logIn(email: string, password: string): Observable<HttpResponse<unknown>> {
+    return this.http.post(environment.apiUrl + "/login", {
       email: email,
       password: password,
-    }).pipe(
-      map((result) => {
-        return { email: email, password: password, token: result.accessToken };
-      }),
-    );
+    }, {
+      params: {
+        useCookies: true,
+        useSessionCookies: true
+      },
+      observe: "response"
+    });
   }
 
-  signUp(email: string, password: string): Observable<User> {
+  signUp(email: string, password: string): Observable<HttpResponse<unknown>> {
     return this.http.post<RegisterResult>(environment.apiUrl + "/register", {
       email: email,
       password: password,
-    }).pipe(
-      map(() => {
-        return { email: email, password: password };
-      }),
-    );
+    }, {
+      observe: "response"
+    });
   }
 
-  logout(): Observable<HttpResponse<object>> {
+  logout(): Observable<HttpResponse<unknown>> {
     return this.http.post(environment.apiUrl + "/logout", {}, {
       observe: "response",
     });
+  }
+
+  getUser(): Observable<string> {
+    return this.http.get<string>(environment.apiUrl + "/user");
   }
 }

@@ -20,7 +20,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: AllowFrontendOriginPolicy,
                       policy => policy.WithOrigins("http://localhost:4200")
                                       .AllowAnyHeader()
-                                      .AllowAnyMethod());
+                                      .AllowAnyMethod()
+                                      .AllowCredentials());
 });
 
 builder.Services.AddApplicationDbContext(
