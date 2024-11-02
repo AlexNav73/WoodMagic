@@ -1,17 +1,9 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 
-import { map, Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 
 import { environment } from "../../environments/environment";
-
-interface LoginResult {
-  name: "result";
-  tokenType: string;
-  refreshToken: string;
-  expiresIn: number;
-  accessToken: string;
-}
 
 type ErrorType = {
   [key: string]: string[];
@@ -25,6 +17,11 @@ interface RegisterResult {
   errors: ErrorType;
 }
 
+export interface UserInfo {
+  email: string;
+  isAdmin: boolean;
+}
+
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private http = inject(HttpClient);
@@ -36,9 +33,9 @@ export class AuthService {
     }, {
       params: {
         useCookies: true,
-        useSessionCookies: true
+        useSessionCookies: true,
       },
-      observe: "response"
+      observe: "response",
     });
   }
 
@@ -47,7 +44,7 @@ export class AuthService {
       email: email,
       password: password,
     }, {
-      observe: "response"
+      observe: "response",
     });
   }
 
@@ -57,7 +54,7 @@ export class AuthService {
     });
   }
 
-  getUser(): Observable<string> {
-    return this.http.get<string>(environment.apiUrl + "/user");
+  getUser(): Observable<UserInfo> {
+    return this.http.get<UserInfo>(environment.apiUrl + "/user");
   }
 }

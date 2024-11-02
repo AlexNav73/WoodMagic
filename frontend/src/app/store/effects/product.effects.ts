@@ -31,7 +31,7 @@ export class ProductEffects {
   CreateSuccess$ = createEffect(() =>
     this.actions.pipe(
       ofType(ProductActions.createSuccess),
-      tap(() => this.route.navigateByUrl("/"))
+      tap(() => this.route.navigateByUrl("/")),
     ), { dispatch: false });
 
   Update$ = createEffect(() =>
@@ -43,16 +43,16 @@ export class ProductEffects {
           catchError((error) => {
             console.log(error.error);
             return of(ProductActions.updateFailed({ reason: "REASON" }));
-          })
-        )
-      })
+          }),
+        );
+      }),
     )
   );
 
   UpdateSuccess$ = createEffect(() =>
     this.actions.pipe(
       ofType(ProductActions.updateSuccess),
-      tap(() => this.route.navigateByUrl("/"))
+      tap(() => this.route.navigateByUrl("/")),
     ), { dispatch: false });
 
   Delete$ = createEffect(() =>
@@ -64,15 +64,15 @@ export class ProductEffects {
           catchError((error) => {
             console.log(error.error);
             return of(ProductActions.deleteFailed({ reason: "REASON" }));
-          })
-        )
-      })
+          }),
+        );
+      }),
     )
   );
 
   DeleteSuccess$ = createEffect(() =>
     this.actions.pipe(
       ofType(ProductActions.deleteSuccess),
-      tap(() => this.route.navigateByUrl("/"))
+      tap(() => this.route.navigateByUrl("/")),
     ), { dispatch: false });
 }

@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { AsyncPipe } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 
 import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
@@ -32,19 +32,19 @@ export class CatalogComponent implements OnInit, OnDestroy {
   pageSize: number = 10;
 
   ngOnInit() {
-    this.subscription = this.route.queryParamMap.subscribe(params => {
-        let page: number | undefined;
-        if (params.has("page")) {
-          page = Number(params.get("page"));
-        }
-        let count: number | undefined;
-        if (params.has("count")) {
-          count = Number(params.get("count"));
-        }
+    this.subscription = this.route.queryParamMap.subscribe((params) => {
+      let page: number | undefined;
+      if (params.has("page")) {
+        page = Number(params.get("page"));
+      }
+      let count: number | undefined;
+      if (params.has("count")) {
+        count = Number(params.get("count"));
+      }
 
-        this.pageIndex = page ?? 0;
-        this.pageSize = count ?? 10;
-        this.store.dispatch(CatalogActions.load({ page, count }));
+      this.pageIndex = page ?? 0;
+      this.pageSize = count ?? 10;
+      this.store.dispatch(CatalogActions.load({ page, count }));
     });
   }
 
@@ -52,7 +52,9 @@ export class CatalogComponent implements OnInit, OnDestroy {
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
 
-    this.store.dispatch(CatalogActions.load({ page: this.pageIndex, count: this.pageSize }));
+    this.store.dispatch(
+      CatalogActions.load({ page: this.pageIndex, count: this.pageSize }),
+    );
   }
 
   ngOnDestroy(): void {

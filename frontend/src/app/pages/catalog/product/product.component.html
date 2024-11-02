@@ -1,5 +1,5 @@
 <mat-card class="product-card" appearance="outlined">
-  <mat-card-header [routerLink]="['/product', id()]">
+  <mat-card-header [routerLink]='["/product", id()]'>
     <mat-card-title>{{ name() }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
@@ -12,9 +12,9 @@
       <mat-chip>sassy</mat-chip>
     </mat-chip-set>
   </mat-card-footer>
-  @if (isAuthenticated$ | async) {
+  @if (isAdmin$ | async) {
     <mat-card-actions>
-      <a mat-button [routerLink]="['/product/edit', id()]">Edit</a>
+      <a mat-button [routerLink]='["/product/edit", id()]'>Edit</a>
       <button mat-button (click)="onDelete()">Delete</button>
     </mat-card-actions>
   }

@@ -29,7 +29,7 @@ export const reducer = createReducer(
       ...state,
       isLoading: false,
       products: payload.products,
-      count: payload.count
+      count: payload.count,
     }),
   ),
   on(

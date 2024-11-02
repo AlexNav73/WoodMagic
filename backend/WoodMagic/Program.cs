@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WoodMagic;
 using WoodMagic.Endpoints;
 using WoodMagic.Persistence;
+using WoodMagic.Services;
 
 var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";
 
@@ -30,11 +32,16 @@ builder.Services.AddApplicationDbContext(
 builder.Services.AddDbContext<IIdentityDbContext, IdentityDbContext>(
     options => options.UseSqlite(builder.Configuration.GetConnectionString("Default"),
     x => x.MigrationsAssembly("WoodMagic.Persistence")));
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(Constants.AdminAccessPolicy, policy => policy.RequireRole("admin"));
+});
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<IdentityDbContext>();
 
 builder.Services.AddPersistenceServices();
+builder.Services.AddTransient<IAuthorizationService, AuthorizationService>();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();

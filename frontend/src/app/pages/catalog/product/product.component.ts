@@ -14,7 +14,13 @@ import * as ProductActions from "../../../store/actions/product.actions";
 @Component({
   selector: "product",
   standalone: true,
-  imports: [MatCardModule, MatChipsModule, MatButtonModule, RouterLink, AsyncPipe],
+  imports: [
+    MatCardModule,
+    MatChipsModule,
+    MatButtonModule,
+    RouterLink,
+    AsyncPipe,
+  ],
   templateUrl: "./product.component.html",
   styleUrl: "./product.component.scss",
 })
@@ -23,7 +29,7 @@ export class ProductComponent {
 
   info: InputSignal<Product | undefined> = input();
 
-  isAuthenticated$ = this.store.select(x => x.auth.isAuthenticated);
+  isAdmin$ = this.store.select((x) => x.auth.isAdmin);
 
   id = computed(() => this.info()?.id);
   name = computed(() => this.info()?.name);

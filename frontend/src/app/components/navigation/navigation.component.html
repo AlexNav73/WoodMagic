@@ -6,8 +6,11 @@
         <mat-icon matListItemIcon>home</mat-icon>
         <span matListItemTitle>Home</span>
       </mat-list-item>
-      @if (isAuthenticated$ | async) {
-        <mat-list-item routerLink="/product/add" routerLinkActive="activebutton">
+      @if (isAdmin$ | async) {
+        <mat-list-item
+          routerLink="/product/add"
+          routerLinkActive="activebutton"
+        >
           <mat-icon matListItemIcon>home</mat-icon>
           <span matListItemTitle>Add New Product</span>
         </mat-list-item>
@@ -35,6 +38,5 @@
     <div class="content">
       <ng-content></ng-content>
     </div>
-
   </mat-sidenav-content>
 </mat-sidenav-container>

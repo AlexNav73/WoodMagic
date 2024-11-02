@@ -4,6 +4,7 @@ import * as AuthActions from "../actions/auth.actions";
 
 export const initialState: State = {
   isAuthenticated: false,
+  isAdmin: false,
   user: null,
   errorMessage: null,
 };
@@ -11,6 +12,7 @@ export const initialState: State = {
 export interface State {
   // is a user authenticated?
   isAuthenticated: boolean;
+  isAdmin: boolean;
   // if authenticated, there should be a user object
   user: string | null;
   // error message
@@ -32,13 +34,6 @@ export const reducer = createReducer(
     (state, error) => ({ ...state, errorMessage: error.reason }),
   ),
   on(
-    AuthActions.signUpSuccess,
-    (state, payload) => ({
-      ...state,
-      user: payload.email,
-    }),
-  ),
-  on(
     AuthActions.signUpFailed,
     (state, error) => ({ ...state, errorMessage: error.reason }),
   ),
@@ -48,6 +43,11 @@ export const reducer = createReducer(
   ),
   on(
     AuthActions.updateCredentialsSuccess,
-    (state, payload) => ({ ...state, isAuthenticated: true, user: payload.email })
-  )
+    (state, payload) => ({
+      ...state,
+      isAuthenticated: true,
+      isAdmin: payload.isAdmin,
+      user: payload.email,
+    }),
+  ),
 );

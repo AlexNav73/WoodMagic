@@ -1,37 +1,38 @@
 <div class="container">
-    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline">
-        <mat-label>Name: </mat-label>
-        <input matInput type="text" formControlName="name" required />
-        <div
-          *ngIf="name.invalid && (name.dirty || name.touched)"
-          class="alert alert-danger"
-        >
-          <mat-error *ngIf="name.hasError('required')"
-          >This field is required</mat-error>
-        </div>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Price: </mat-label>
-        <input matInput type="number" formControlName="price" required />
-        <div
-          *ngIf="price.invalid && (price.dirty || price.touched)"
-          class="alert alert-danger"
-        >
-          <mat-error *ngIf="price.hasError('required')"
-          >This field is required</mat-error>
-        </div>
-      </mat-form-field>
-  
-      <ul *ngIf="form.errors">
-        @for (error of form.errors | keyvalue; track $index) {
-          @for (e of error.value; track $index) {
-            <li>{{ e }}</li>
-          }
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Name: </mat-label>
+      <input matInput type="text" formControlName="name" required />
+      <div
+        *ngIf="name.invalid && (name.dirty || name.touched)"
+        class="alert alert-danger"
+      >
+        <mat-error *ngIf="name.hasError('required')"
+        >This field is required</mat-error>
+      </div>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Price: </mat-label>
+      <input matInput type="number" formControlName="price" required />
+      <div
+        *ngIf="price.invalid && (price.dirty || price.touched)"
+        class="alert alert-danger"
+      >
+        <mat-error *ngIf="price.hasError('required')"
+        >This field is required</mat-error>
+      </div>
+    </mat-form-field>
+
+    <ul *ngIf="form.errors">
+      @for (error of form.errors | keyvalue; track $index) {
+        @for (e of error.value; track $index) {
+          <li>{{ e }}</li>
         }
-      </ul>
-  
-      <button mat-raised-button type="submit" [disabled]="!form.valid">{{ type }}</button>
-    </form>
-  </div>
-  
+      }
+    </ul>
+
+    <button mat-raised-button type="submit" [disabled]="!form.valid">
+      {{ type }}
+    </button>
+  </form>
+</div>

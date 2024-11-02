@@ -2,7 +2,11 @@ import { ApplicationConfig, provideZoneChangeDetection } from "@angular/core";
 import { provideRouter, withComponentInputBinding } from "@angular/router";
 import { provideClientHydration } from "@angular/platform-browser";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
-import { provideHttpClient, withFetch, withInterceptors } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from "@angular/common/http";
 import { provideStore } from "@ngrx/store";
 import { provideEffects } from "@ngrx/effects";
 

@@ -26,11 +26,11 @@ import { AppState } from "../../store/app.states";
     RouterLink,
     RouterLinkActive,
     AuthComponent,
-    AsyncPipe
+    AsyncPipe,
   ],
 })
 export class NavigationComponent {
   private store: Store<AppState> = inject(Store<AppState>);
 
-  isAuthenticated$ = this.store.select(x => x.auth.isAuthenticated);
+  isAdmin$ = this.store.select((x) => x.auth.isAdmin);
 }

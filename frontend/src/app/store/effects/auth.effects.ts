@@ -6,6 +6,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 
 import { AuthService } from "../../services/auth.service";
 import * as AuthActions from "../actions/auth.actions";
+import { UserInfo } from "../../services/auth.service";
 
 @Injectable()
 export class AuthEffects {
@@ -48,7 +49,7 @@ export class AuthEffects {
           .pipe(
             map((result) => {
               console.log(result);
-              return AuthActions.signUpSuccess({ email: action.email! });
+              return AuthActions.signUpSuccess();
             }),
             catchError((error) => {
               console.log(error.error);
@@ -62,9 +63,7 @@ export class AuthEffects {
   SignUpSuccess$ = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.signUpSuccess),
-      tap(() => {
-        this.router.navigateByUrl("/login");
-      }),
+      tap(() => this.router.navigateByUrl("/login")),
     ), { dispatch: false });
 
   LogOut$ = createEffect(() =>
@@ -89,9 +88,7 @@ export class AuthEffects {
   LogOutSuccess$ = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.logoutSuccess),
-      tap(() => {
-        this.router.navigateByUrl("/");
-      })
+      tap(() => this.router.navigateByUrl("/")),
     ), { dispatch: false });
 
   Update$ = createEffect(() =>
@@ -100,13 +97,17 @@ export class AuthEffects {
       switchMap(() => {
         return this.authService.getUser()
           .pipe(
-            map((user) => AuthActions.updateCredentialsSuccess({ email: user })),
-            catchError((error) => {
-              console.log(error);
+            map((user: UserInfo) =>
+              AuthActions.updateCredentialsSuccess({
+                email: user.email,
+                isAdmin: user.isAdmin,
+              })
+            ),
+            catchError(() => {
               return of(AuthActions.updateCredentialsFailed());
-            })
+            }),
           );
-      })
+      }),
     )
   );
 }

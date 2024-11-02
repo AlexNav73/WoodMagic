@@ -17,7 +17,10 @@ export class CatalogEffects {
       switchMap((action) => {
         return this.catalogService.load(action.page, action.count).pipe(
           map((products) => {
-            return CatalogActions.loadSuccess({ products: products.products, count: products.count });
+            return CatalogActions.loadSuccess({
+              products: products.products,
+              count: products.count,
+            });
           }),
           catchError((error) => {
             console.log(error.error);

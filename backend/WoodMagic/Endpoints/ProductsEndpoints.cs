@@ -37,16 +37,16 @@ public static class ProductsEndpoints
         app.MapPost("/add", async ([FromServices] IProductService productService, [FromBody] Product product) =>
         {
             await productService.CreateAsync(product);
-        }).WithName("CreateProduct").WithOpenApi().RequireAuthorization();
+        }).WithName("CreateProduct").WithOpenApi().RequireAuthorization(Constants.AdminAccessPolicy);
 
         app.MapPost("/update", async ([FromServices] IProductService productService, [FromBody] Product product) =>
         {
             await productService.UpdateAsync(product);
-        }).WithName("UpdateProduct").WithOpenApi().RequireAuthorization();
+        }).WithName("UpdateProduct").WithOpenApi().RequireAuthorization(Constants.AdminAccessPolicy);
 
         app.MapPost("/delete", async ([FromServices] IProductService productService, [FromQuery] Guid id) =>
         {
             await productService.DeleteAsync(id);
-        }).WithName("DeleteProduct").WithOpenApi().RequireAuthorization();
+        }).WithName("DeleteProduct").WithOpenApi().RequireAuthorization(Constants.AdminAccessPolicy);
     }
 }

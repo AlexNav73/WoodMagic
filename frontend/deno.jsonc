@@ -1,8 +1,8 @@
 {
-    "lint": {
-        "exclude": [".angular"],
-        "rules": {
-            "exclude": []
-        }
+  "lint": {
+    "exclude": [".angular"],
+    "rules": {
+      "exclude": []
     }
+  }
 }

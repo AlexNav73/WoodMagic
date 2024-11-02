@@ -3,7 +3,6 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
 import { MatButtonModule } from "@angular/material/button";
 import { AsyncPipe } from "@angular/common";
 
-import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import { AppState } from "../../store/app.states";
@@ -25,6 +24,7 @@ export class AuthComponent implements OnInit {
   private store = inject(Store<AppState>);
 
   isAuthenticated$ = this.store.select((state) => state.auth.isAuthenticated);
+  isAdmin$ = this.store.select((state) => state.auth.isAdmin);
   email$ = this.store.select((state) => state.auth.user);
 
   ngOnInit(): void {

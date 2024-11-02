@@ -31,10 +31,7 @@ export const signUp = createAction(
   AuthActionTypes.SIGNUP,
   props<Credentials>(),
 );
-export const signUpSuccess = createAction(
-  AuthActionTypes.SIGNUP_SUCCESS,
-  props<{ email: string }>(),
-);
+export const signUpSuccess = createAction(AuthActionTypes.SIGNUP_SUCCESS);
 export const signUpFailed = createAction(
   AuthActionTypes.SIGNUP_FAILURE,
   props<{ reason: string }>(),
@@ -47,9 +44,13 @@ export const logoutFailed = createAction(
   props<{ reason: string }>(),
 );
 
-export const updateCredentials = createAction(AuthActionTypes.UPDATE_CREDENTIALS);
+export const updateCredentials = createAction(
+  AuthActionTypes.UPDATE_CREDENTIALS,
+);
 export const updateCredentialsSuccess = createAction(
   AuthActionTypes.UPDATE_CREDENTIALS_SUCCESS,
-  props<{ email: string; }>(),
+  props<{ email: string; isAdmin: boolean }>(),
 );
-export const updateCredentialsFailed = createAction(AuthActionTypes.UPDATE_CREDENTIALS_FAILED);
+export const updateCredentialsFailed = createAction(
+  AuthActionTypes.UPDATE_CREDENTIALS_FAILED,
+);

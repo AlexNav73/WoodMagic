@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WoodMagic.Models;
+using WoodMagic.Services;
 
 namespace WoodMagic.Endpoints;
 
@@ -30,21 +31,35 @@ public static class AuthorizationEndpoints
         .WithOpenApi()
         .RequireAuthorization();
 
-        app.MapGet("/user", (ClaimsPrincipal user) => Results.Ok(user.FindFirstValue(ClaimTypes.Email)))
-            .WithName("GetUser")
-            .WithOpenApi()
-            .RequireAuthorization();
-
-        app.MapPost("/isInRole", async ([FromServices] RoleManager<IdentityUser> roleManager, ClaimsPrincipal user, [FromBody] string role) =>
+        app.MapGet("/user", async (
+            [FromServices] RoleManager<IdentityRole> roleManager,
+            ClaimsPrincipal user) =>
         {
-            if (role != null && await roleManager.RoleExistsAsync(role))
+            var email = user.FindFirstValue(ClaimTypes.Email);
+            var roleExists = await roleManager.RoleExistsAsync("admin");
+            if (email is not null && roleExists)
             {
-                return Results.Ok(user.IsInRole(role));
+                var isAdmin = user.IsInRole("admin");
+
+                return Results.Ok(new UserInfo(email, isAdmin));
+            }
+
+            return Results.Problem();
+        })
+        .WithName("GetUser")
+        .WithOpenApi()
+        .RequireAuthorization();
+
+        app.MapPost("/addRole", async ([FromServices] IAuthorizationService authorizationService, [FromBody] AssignRoleRequest request) =>
+        {
+            if (await authorizationService.AssignRoleToUser(request.Email, request.RoleName))
+            {
+                return Results.Ok();
             }
 
             return Results.Unauthorized();
         })
         .WithOpenApi()
-        .RequireAuthorization();
+        .RequireAuthorization(Constants.AdminAccessPolicy);
     }
 }
