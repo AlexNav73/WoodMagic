@@ -29,7 +29,7 @@ import { login } from "../../store/actions/auth.actions";
 })
 export class LoginComponent {
   private fb = inject(NonNullableFormBuilder);
-  private store = inject(Store<AppState>);
+  private store: Store<AppState> = inject(Store<AppState>);
 
   form = this.fb.group({
     email: this.fb.control<string>("", [Validators.required, Validators.email]),

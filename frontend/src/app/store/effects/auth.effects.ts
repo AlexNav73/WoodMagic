@@ -36,10 +36,11 @@ export class AuthEffects {
   LogInSuccess$ = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.loginSuccess),
-      tap(() => {
+      switchMap(() => {
         this.router.navigateByUrl("/");
+        return of(AuthActions.getUserInfo());
       }),
-    ), { dispatch: false });
+    ));
 
   SignUp$ = createEffect(() =>
     this.actions.pipe(
@@ -93,18 +94,19 @@ export class AuthEffects {
 
   Update$ = createEffect(() =>
     this.actions.pipe(
-      ofType(AuthActions.updateCredentials),
+      ofType(AuthActions.getUserInfo),
       switchMap(() => {
         return this.authService.getUser()
           .pipe(
             map((user: UserInfo) =>
-              AuthActions.updateCredentialsSuccess({
+              AuthActions.getUserInfoSuccess({
+                id: user.id,
                 email: user.email,
                 isAdmin: user.isAdmin,
               })
             ),
             catchError(() => {
-              return of(AuthActions.updateCredentialsFailed());
+              return of(AuthActions.getUserInfoFailed());
             }),
           );
       }),

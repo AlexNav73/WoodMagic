@@ -10,7 +10,7 @@ public static class AuthorizationEndpoints
 {
     public static void MapAuthorizationEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        var app = endpoints.MapGroup("");
+        var app = endpoints.MapGroup("user");
 
         app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager, ClaimsPrincipal user, [FromBody] object? empty) =>
         {
@@ -31,17 +31,18 @@ public static class AuthorizationEndpoints
         .WithOpenApi()
         .RequireAuthorization();
 
-        app.MapGet("/user", async (
+        app.MapGet("/", async (
             [FromServices] RoleManager<IdentityRole> roleManager,
             ClaimsPrincipal user) =>
         {
             var email = user.FindFirstValue(ClaimTypes.Email);
-            var roleExists = await roleManager.RoleExistsAsync("admin");
-            if (email is not null && roleExists)
+            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            var roleExists = await roleManager.RoleExistsAsync(Constants.Roles.Admin);
+            if (userId is not null && email is not null && roleExists)
             {
-                var isAdmin = user.IsInRole("admin");
+                var isAdmin = user.IsInRole(Constants.Roles.Admin);
 
-                return Results.Ok(new UserInfo(email, isAdmin));
+                return Results.Ok(new UserInfo(userId, email, isAdmin));
             }
 
             return Results.Problem();
@@ -50,9 +51,9 @@ public static class AuthorizationEndpoints
         .WithOpenApi()
         .RequireAuthorization();
 
-        app.MapPost("/addRole", async ([FromServices] IAuthorizationService authorizationService, [FromBody] AssignRoleRequest request) =>
+        app.MapPost("/{email:required}/role/{role:required}", async ([FromServices] IAuthorizationService authorizationService, [FromQuery] string email, [FromQuery] string role) =>
         {
-            if (await authorizationService.AssignRoleToUser(request.Email, request.RoleName))
+            if (await authorizationService.AssignRoleToUser(email, role))
             {
                 return Results.Ok();
             }

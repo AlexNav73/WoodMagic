@@ -10,7 +10,6 @@ using WoodMagic.Models;
 [JsonSerializable(typeof(User))]
 [JsonSerializable(typeof(ProductList))]
 [JsonSerializable(typeof(Product))]
-[JsonSerializable(typeof(AssignRoleRequest))]
 [JsonSerializable(typeof(UserInfo))]
 [JsonSerializable(typeof(HttpValidationProblemDetails))]
 [JsonSerializable(typeof(ProblemDetails))]

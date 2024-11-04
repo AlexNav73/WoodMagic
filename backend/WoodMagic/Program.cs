@@ -34,7 +34,7 @@ builder.Services.AddDbContext<IIdentityDbContext, IdentityDbContext>(
     x => x.MigrationsAssembly("WoodMagic.Persistence")));
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(Constants.AdminAccessPolicy, policy => policy.RequireRole("admin"));
+    options.AddPolicy(Constants.AdminAccessPolicy, policy => policy.RequireRole(Constants.Roles.Admin));
 });
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()

@@ -1,5 +1,5 @@
 ﻿namespace WoodMagic.Models;
 
-public record UserInfo(string Email, bool IsAdmin)
+public record UserInfo(string Id, string Email, bool IsAdmin)
 {
 }

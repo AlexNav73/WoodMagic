@@ -13,6 +13,7 @@ import { provideEffects } from "@ngrx/effects";
 import { routes } from "./app.routes";
 
 import { authInterceptor } from "./interceptors/auth.interceptor";
+import { baseUrlInterceptor } from "./interceptors/base-url.interceptor";
 
 import { reducers } from "./store/app.states";
 import { AuthEffects } from "./store/effects/auth.effects";
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideClientHydration(),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor, baseUrlInterceptor])),
     provideAnimationsAsync(),
     provideStore(reducers),
     provideEffects(AuthEffects, CatalogEffects, ProductEffects),

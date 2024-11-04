@@ -21,14 +21,14 @@ import * as AuthActions from "../../store/actions/auth.actions";
   styleUrl: "./auth.component.scss",
 })
 export class AuthComponent implements OnInit {
-  private store = inject(Store<AppState>);
+  private store: Store<AppState> = inject(Store<AppState>);
 
   isAuthenticated$ = this.store.select((state) => state.auth.isAuthenticated);
   isAdmin$ = this.store.select((state) => state.auth.isAdmin);
-  email$ = this.store.select((state) => state.auth.user);
+  email$ = this.store.select((state) => state.auth.email);
 
   ngOnInit(): void {
-    this.store.dispatch(AuthActions.updateCredentials());
+    this.store.dispatch(AuthActions.getUserInfo());
   }
 
   onLogout() {

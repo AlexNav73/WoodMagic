@@ -3,13 +3,18 @@ import { AsyncPipe } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 
-import { Subscription } from "rxjs";
+import { Subject, takeUntil } from "rxjs";
 import { Store } from "@ngrx/store";
+import { Actions, ofType } from "@ngrx/effects";
 
 import { ProductComponent } from "./product/product.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { AppState } from "../../store/app.states";
 import * as CatalogActions from "../../store/actions/catalog.actions";
+import * as ProductActions from "../../store/actions/product.actions";
+
+const defaultPageIndex: number = 0;
+const defaultPageSize: number = 10;
 
 @Component({
   selector: "catalog",
@@ -21,18 +26,32 @@ import * as CatalogActions from "../../store/actions/catalog.actions";
 export class CatalogComponent implements OnInit, OnDestroy {
   private store: Store<AppState> = inject(Store<AppState>);
   private route = inject(ActivatedRoute);
+  private actions = inject(Actions);
 
-  private subscription?: Subscription;
+  private destroy$ = new Subject<void>();
 
   isLoading$ = this.store.select((x) => x.catalog.isLoading);
   products$ = this.store.select((x) => x.catalog.products);
   length$ = this.store.select((x) => x.catalog.count);
 
-  pageIndex: number = 0;
-  pageSize: number = 10;
+  pageIndex: number = defaultPageIndex;
+  pageSize: number = defaultPageSize;
+
+  constructor() {
+    this.actions
+      .pipe(
+        ofType(ProductActions.deleteProduct),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.store.dispatch(
+          CatalogActions.load({ page: this.pageIndex, count: this.pageSize }),
+        );
+      });
+  }
 
   ngOnInit() {
-    this.subscription = this.route.queryParamMap.subscribe((params) => {
+    this.route.queryParamMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       let page: number | undefined;
       if (params.has("page")) {
         page = Number(params.get("page"));
@@ -42,8 +61,8 @@ export class CatalogComponent implements OnInit, OnDestroy {
         count = Number(params.get("count"));
       }
 
-      this.pageIndex = page ?? 0;
-      this.pageSize = count ?? 10;
+      this.pageIndex = page ?? defaultPageIndex;
+      this.pageSize = count ?? defaultPageSize;
       this.store.dispatch(CatalogActions.load({ page, count }));
     });
   }
@@ -58,6 +77,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

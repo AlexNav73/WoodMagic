@@ -31,7 +31,7 @@ import { signUp } from "../../store/actions/auth.actions";
 })
 export class SignUpComponent {
   private fb = inject(NonNullableFormBuilder);
-  private store = inject(Store<AppState>);
+  private store: Store<AppState> = inject(Store<AppState>);
 
   form = this.fb.group({
     email: this.fb.control<string>("", [Validators.required, Validators.email]),

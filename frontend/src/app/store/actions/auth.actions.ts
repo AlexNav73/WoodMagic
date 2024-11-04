@@ -12,9 +12,9 @@ export enum AuthActionTypes {
   LOGOUT = "[Auth] Logout",
   LOGOUT_SUCCESS = "[Auth] Logout Success",
   LOGOUT_FAILURE = "[Auth] Logout Failure",
-  UPDATE_CREDENTIALS = "[Auth] Update Credentials",
-  UPDATE_CREDENTIALS_SUCCESS = "[Auth] Update Credentials Success",
-  UPDATE_CREDENTIALS_FAILED = "[Auth] Update Credentials Failure",
+  GET_USER_INFO = "[Auth] Get User Info",
+  GET_USER_INFO_SUCCESS = "[Auth] Get User Info Success",
+  GET_USER_INFO_FAILED = "[Auth] Get User Info Failure",
 }
 
 export const login = createAction(AuthActionTypes.LOGIN, props<Credentials>());
@@ -44,13 +44,13 @@ export const logoutFailed = createAction(
   props<{ reason: string }>(),
 );
 
-export const updateCredentials = createAction(
-  AuthActionTypes.UPDATE_CREDENTIALS,
+export const getUserInfo = createAction(
+  AuthActionTypes.GET_USER_INFO,
 );
-export const updateCredentialsSuccess = createAction(
-  AuthActionTypes.UPDATE_CREDENTIALS_SUCCESS,
-  props<{ email: string; isAdmin: boolean }>(),
+export const getUserInfoSuccess = createAction(
+  AuthActionTypes.GET_USER_INFO_SUCCESS,
+  props<{ id: string; email: string; isAdmin: boolean }>(),
 );
-export const updateCredentialsFailed = createAction(
-  AuthActionTypes.UPDATE_CREDENTIALS_FAILED,
+export const getUserInfoFailed = createAction(
+  AuthActionTypes.GET_USER_INFO_FAILED,
 );

@@ -1,9 +1,8 @@
-import { HttpClient, HttpRequest, HttpResponse } from "@angular/common/http";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 
 import { Observable } from "rxjs";
 
-import { environment } from "../../environments/environment";
 import { Product } from "../model/product.interface";
 
 interface ProductList {
@@ -24,25 +23,29 @@ export class CatalogService {
       params = { ...params, count };
     }
 
-    return this.http.get<ProductList>(environment.apiUrl + "/products/load", {
+    return this.http.get<ProductList>("products/load", {
       params,
     });
   }
 
+  public get(id: string): Observable<Product> {
+    return this.http.get<Product>(`products/${id}`);
+  }
+
   public create(product: Product): Observable<HttpResponse<unknown>> {
-    return this.http.post(environment.apiUrl + "/products/add", product, {
+    return this.http.post("products/add", product, {
       observe: "response",
     });
   }
 
   public update(product: Product): Observable<HttpResponse<unknown>> {
-    return this.http.post(environment.apiUrl + "/products/update", product, {
+    return this.http.post("products/update", product, {
       observe: "response",
     });
   }
 
   public delete(id: string): Observable<HttpResponse<unknown>> {
-    return this.http.post(environment.apiUrl + "/products/delete", {}, {
+    return this.http.post("products/delete", {}, {
       observe: "response",
       params: { id },
     });

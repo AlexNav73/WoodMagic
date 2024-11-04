@@ -3,8 +3,6 @@ import { HttpClient, HttpResponse } from "@angular/common/http";
 
 import { Observable } from "rxjs";
 
-import { environment } from "../../environments/environment";
-
 type ErrorType = {
   [key: string]: string[];
 };
@@ -18,6 +16,7 @@ interface RegisterResult {
 }
 
 export interface UserInfo {
+  id: string;
   email: string;
   isAdmin: boolean;
 }
@@ -27,7 +26,7 @@ export class AuthService {
   private http = inject(HttpClient);
 
   logIn(email: string, password: string): Observable<HttpResponse<unknown>> {
-    return this.http.post(environment.apiUrl + "/login", {
+    return this.http.post("login", {
       email: email,
       password: password,
     }, {
@@ -40,7 +39,7 @@ export class AuthService {
   }
 
   signUp(email: string, password: string): Observable<HttpResponse<unknown>> {
-    return this.http.post<RegisterResult>(environment.apiUrl + "/register", {
+    return this.http.post<RegisterResult>("register", {
       email: email,
       password: password,
     }, {
@@ -49,12 +48,12 @@ export class AuthService {
   }
 
   logout(): Observable<HttpResponse<unknown>> {
-    return this.http.post(environment.apiUrl + "/logout", {}, {
+    return this.http.post("user/logout", {}, {
       observe: "response",
     });
   }
 
   getUser(): Observable<UserInfo> {
-    return this.http.get<UserInfo>(environment.apiUrl + "/user");
+    return this.http.get<UserInfo>("user");
   }
 }

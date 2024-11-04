@@ -11,8 +11,7 @@ import { EditProductBaseComponent } from "./edit-product-base.component";
 import { Product } from "../../../model/product.interface";
 import * as ProductActions from "../../../store/actions/product.actions";
 import { AppState } from "../../../store/app.states";
-import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../../environments/environment";
+import { CatalogService } from "../../../services/catalog.service";
 
 @Component({
   selector: "edit-product",
@@ -30,14 +29,14 @@ import { environment } from "../../../../environments/environment";
 export class EditProductComponent extends EditProductBaseComponent
   implements OnInit {
   private store: Store<AppState> = inject(Store<AppState>);
-  private http = inject(HttpClient);
+  private catalogService = inject(CatalogService);
 
   id = input.required<string>();
 
   override type: string = "Edit";
 
   ngOnInit(): void {
-    this.http.get<Product>(environment.apiUrl + `/products/${this.id()}`)
+    this.catalogService.get(this.id())
       .subscribe((product) => {
         this.form.controls.name.setValue(product.name);
         this.form.controls.price.setValue(product.price);
