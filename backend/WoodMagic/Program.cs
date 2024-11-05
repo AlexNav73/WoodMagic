@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WoodMagic;
 using WoodMagic.Endpoints;
 using WoodMagic.Persistence;
+using WoodMagic.Persistence.Entities;
 using WoodMagic.Services;
 
 var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";
@@ -29,16 +31,17 @@ builder.Services.AddCors(options =>
 builder.Services.AddApplicationDbContext(
     options => options.UseSqlite(builder.Configuration.GetConnectionString("Default"),
     x => x.MigrationsAssembly("WoodMagic.Persistence")));
-builder.Services.AddDbContext<IIdentityDbContext, IdentityDbContext>(
-    options => options.UseSqlite(builder.Configuration.GetConnectionString("Default"),
-    x => x.MigrationsAssembly("WoodMagic.Persistence")));
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(Constants.AdminAccessPolicy, policy => policy.RequireRole(Constants.Roles.Admin));
 });
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<IdentityDbContext>();
+builder.Services.AddIdentityApiEndpoints<User>()
+    .AddRoles<Role>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders()
+    .AddUserManager<UserManager<User>>()
+    .AddUserStore<UserStore<User, Role, ApplicationDbContext, Guid>>()
+    .AddRoleStore<RoleStore<Role, ApplicationDbContext, Guid>>();
 
 builder.Services.AddPersistenceServices();
 builder.Services.AddTransient<IAuthorizationService, AuthorizationService>();
@@ -67,7 +70,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(AllowFrontendOriginPolicy);
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<User>();
 app.MapAuthorizationEndpoints();
 app.MapProductsEndpoints();
 

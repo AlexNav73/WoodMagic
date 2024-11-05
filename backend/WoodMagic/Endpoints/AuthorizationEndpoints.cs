@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WoodMagic.Models;
+using WoodMagic.Persistence.Entities;
 using WoodMagic.Services;
 
 namespace WoodMagic.Endpoints;
@@ -12,7 +13,7 @@ public static class AuthorizationEndpoints
     {
         var app = endpoints.MapGroup("user");
 
-        app.MapPost("/logout", async (SignInManager<IdentityUser> signInManager, ClaimsPrincipal user, [FromBody] object? empty) =>
+        app.MapPost("/logout", async (SignInManager<Persistence.Entities.User> signInManager, ClaimsPrincipal user, [FromBody] object? empty) =>
         {
             if (empty != null)
             {
@@ -31,29 +32,32 @@ public static class AuthorizationEndpoints
         .WithOpenApi()
         .RequireAuthorization();
 
-        app.MapGet("/", async (
-            [FromServices] RoleManager<IdentityRole> roleManager,
-            ClaimsPrincipal user) =>
+        app.MapGet("/", async ([FromServices] UserManager<Persistence.Entities.User> userManger, ClaimsPrincipal identity) =>
         {
-            var email = user.FindFirstValue(ClaimTypes.Email);
-            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-            var roleExists = await roleManager.RoleExistsAsync(Constants.Roles.Admin);
-            if (userId is not null && email is not null && roleExists)
+            var email = identity.FindFirstValue(ClaimTypes.Email);
+            var userId = identity.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId is null || email is null)
             {
-                var isAdmin = user.IsInRole(Constants.Roles.Admin);
-
-                return Results.Ok(new UserInfo(userId, email, isAdmin));
+                return TypedResults.Unauthorized();
             }
 
-            return Results.Problem();
+            var user = await userManger.FindByIdAsync(userId);
+            if (user is null)
+            {
+                return TypedResults.Unauthorized();
+            }
+
+            var isAdmin = await userManger.IsInRoleAsync(user, Constants.Roles.Admin);
+
+            return Results.Ok(new UserInfo(userId, email, isAdmin));
         })
         .WithName("GetUser")
         .WithOpenApi()
         .RequireAuthorization();
 
-        app.MapPost("/{email:required}/role/{role:required}", async ([FromServices] IAuthorizationService authorizationService, [FromQuery] string email, [FromQuery] string role) =>
+        app.MapPost("/{userId:required}/role/{role:required}", async ([FromServices] IAuthorizationService authorizationService, Guid userId, string role) =>
         {
-            if (await authorizationService.AssignRoleToUser(email, role))
+            if (await authorizationService.AssignRoleToUser(userId, role))
             {
                 return Results.Ok();
             }

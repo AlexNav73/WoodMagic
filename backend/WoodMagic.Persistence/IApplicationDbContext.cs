@@ -5,7 +5,7 @@ namespace WoodMagic.Persistence;
 
 public interface IApplicationDbContext
 {
-    public DbSet<Product> Products { get; }
+    DbSet<Product> Products { get; }
 
     Task<int> SaveChangesAsync(CancellationToken token = default);
 }

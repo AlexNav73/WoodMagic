@@ -1,36 +1,34 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using WoodMagic.Persistence.Entities;
 
 namespace WoodMagic.Services;
 
 internal sealed class AuthorizationService : IAuthorizationService
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly UserManager<User> _userManager;
+    private readonly RoleManager<Role> _roleManager;
 
     public AuthorizationService(
-        UserManager<IdentityUser> userManager,
-        RoleManager<IdentityRole> roleManager)
+        UserManager<User> userManager,
+        RoleManager<Role> roleManager)
     {
         _userManager = userManager;
         _roleManager = roleManager;
     }
 
-    public async Task<bool> AssignRoleToUser(string email, string role)
+    public async Task<bool> AssignRoleToUser(Guid userId, string role)
     {
         IdentityResult? identityResult = null;
         var isRoleExists = await _roleManager.RoleExistsAsync(role);
         if (!isRoleExists)
         {
-            var identityRole = new IdentityRole
-            {
-                Name = role
-            };
-            await _roleManager.CreateAsync(identityRole);
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user is not null)
-            {
-                identityResult = await _userManager.AddToRoleAsync(user, role);
-            }
+            await _roleManager.CreateAsync(new Role { Name = role });
+        }
+
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user is not null)
+        {
+            identityResult = await _userManager.AddToRoleAsync(user, role);
         }
 
         return identityResult?.Succeeded ?? false;

@@ -13,4 +13,6 @@ public sealed class Product
     public int Rate { get; set; }
 
     public State State { get; set; }
+
+    public List<Basket> Baskets { get; set; } = new();
 }

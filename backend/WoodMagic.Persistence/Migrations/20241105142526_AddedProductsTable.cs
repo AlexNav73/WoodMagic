@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WoodMagic.Persistence.Migrations.Application
+namespace WoodMagic.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class AddedProductsTable : Migration
