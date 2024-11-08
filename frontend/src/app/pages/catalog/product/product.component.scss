@@ -6,3 +6,15 @@
 .product-card-footer {
   padding: 16px;
 }
+
+.product-card-actions {
+  justify-content: right;
+}
+
+.add-to-cart-button {
+  width: 42px;
+  height: 32px;
+
+  --mdc-fab-container-color: #7d7def;
+  --mat-fab-foreground-color: #f9f9f9;
+}

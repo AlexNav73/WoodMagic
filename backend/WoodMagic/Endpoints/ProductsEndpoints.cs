@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WoodMagic.Core.Model;
 using WoodMagic.Core.Services;
 
@@ -22,6 +23,7 @@ public static class ProductsEndpoints
     public static void MapProductsEndpoints(this IEndpointRouteBuilder endpoints)
     {
         var app = endpoints.MapGroup("products");
+
         app.MapGet("/load", async ([FromServices] IProductService productService, [FromQuery] int page = 0, [FromQuery] int count = 10) =>
         {
             return new ProductList(
@@ -48,5 +50,18 @@ public static class ProductsEndpoints
         {
             await productService.DeleteAsync(id);
         }).WithName("DeleteProduct").WithOpenApi().RequireAuthorization(Constants.AdminAccessPolicy);
+
+        app.MapPost("/{productId}/basket/add", async ([FromServices] IProductService productService, [FromRoute] Guid productId, ClaimsPrincipal user) =>
+        {
+            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId is null)
+            {
+                return Results.Unauthorized();
+            }
+
+            await productService.AddToBasket(Guid.Parse(userId), productId);
+
+            return Results.Ok();
+        }).WithName("AddToBasket").WithOpenApi().RequireAuthorization();
     }
 }

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="product-list">
     @if (isLoading$ | async) {
-    <spinner />
+    <mat-spinner></mat-spinner>
     } @else {
     @for (product of products$ | async; track $index) {
     <product [info]="product"></product>

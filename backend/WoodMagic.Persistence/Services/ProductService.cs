@@ -17,7 +17,7 @@ internal sealed class ProductService : IProductService
     {
         return _dbContext.Products
             .AsNoTracking()
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.Name)
             .Skip(page * count)
             .Take(count)
             .Select(p => new Product()
@@ -49,6 +49,39 @@ internal sealed class ProductService : IProductService
                 Rate = p.Rate
             })
             .FirstOrDefaultAsync();
+    }
+
+    public async Task AddToBasket(Guid userId, Guid productId)
+    {
+        var isAlreadyAdded = await _dbContext.Products
+            .Where(x => x.Id == productId && x.Baskets.Any(b => b.UserId == userId))
+            .AnyAsync();
+
+        if (isAlreadyAdded)
+        {
+            return;
+        }
+
+        var user = await _dbContext.Users
+            .Include(x => x.Basket)
+            .Where(x => x.Id == userId)
+            .SingleOrDefaultAsync();
+        var product = await _dbContext.Products
+            .AsNoTracking()
+            .Where(x => x.Id == productId)
+            .SingleOrDefaultAsync();
+
+        if (user is not null && product is not null)
+        {
+            if (user.Basket is null)
+            {
+                user.Basket = new Entities.Basket() { User = user };
+            }
+
+            user.Basket.Products.Add(product);
+            
+            await _dbContext.SaveChangesAsync();
+        }
     }
 
     public async Task CreateAsync(Product product)

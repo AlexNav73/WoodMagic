@@ -4,8 +4,11 @@ import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
 import { AsyncPipe } from "@angular/common";
 import { MatButtonModule } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
 
+import { Subject, takeUntil } from "rxjs";
 import { Store } from "@ngrx/store";
+import { Actions, ofType } from "@ngrx/effects";
 
 import { Product } from "../../../model/product.interface";
 import { AppState } from "../../../store/app.states";
@@ -18,6 +21,7 @@ import * as ProductActions from "../../../store/actions/product.actions";
     MatCardModule,
     MatChipsModule,
     MatButtonModule,
+    MatIcon,
     RouterLink,
     AsyncPipe,
   ],
@@ -27,6 +31,8 @@ import * as ProductActions from "../../../store/actions/product.actions";
 export class ProductComponent {
   private store: Store<AppState> = inject(Store<AppState>);
 
+  private destroy$ = new Subject<void>();
+
   info: InputSignal<Product | undefined> = input();
 
   isAdmin$ = this.store.select((x) => x.auth.isAdmin);
@@ -35,7 +41,24 @@ export class ProductComponent {
   name = computed(() => this.info()?.name);
   price = computed(() => this.info()?.price);
 
+  isProcessing: boolean = false;
+
+  constructor() {
+    const actions = inject(Actions);
+
+    actions.pipe(
+      ofType(ProductActions.addToBasketSuccess, ProductActions.addToBasketFailed),
+      takeUntil(this.destroy$)
+    )
+      .subscribe(() => this.isProcessing = false);
+  }
+
   onDelete() {
     this.store.dispatch(ProductActions.deleteProduct({ id: this.id()! }));
+  }
+
+  onAddToCart() {
+    this.isProcessing = true;
+    this.store.dispatch(ProductActions.addToBasket({ productId: this.id()! }));
   }
 }

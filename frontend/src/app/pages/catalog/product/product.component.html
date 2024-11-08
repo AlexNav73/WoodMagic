@@ -1,21 +1,19 @@
 <mat-card class="product-card" appearance="outlined">
-  <mat-card-header [routerLink]='["/product", id()]'>
-    <mat-card-title>{{ name() }}</mat-card-title>
+  <mat-card-header>
   </mat-card-header>
-  <mat-card-content>
-    <span>Price: {{ price() }}</span>
+  <mat-card-content [routerLink]='["/product", id()]'>
+    {{ name() }}
   </mat-card-content>
   <mat-card-footer class="product-card-footer">
-    <mat-chip-set aria-label="labels">
-      <mat-chip>charming</mat-chip>
-      <mat-chip>graceful</mat-chip>
-      <mat-chip>sassy</mat-chip>
-    </mat-chip-set>
+    <span>Price: {{ price() }}</span>
   </mat-card-footer>
-  @if (isAdmin$ | async) {
-    <mat-card-actions>
-      <a mat-button [routerLink]='["/product/edit", id()]'>Edit</a>
-      <button mat-button (click)="onDelete()">Delete</button>
-    </mat-card-actions>
-  }
+  <mat-card-actions class="product-card-actions">
+    @if (isAdmin$ | async) {
+    <a mat-button [routerLink]='["/product/edit", id()]'>Edit</a>
+    <button mat-button (click)="onDelete()">Delete</button>
+    }
+    <button class="add-to-cart-button" mat-fab (click)="onAddToCart()" [disabled]="isProcessing">
+      <mat-icon>add_shopping_cart</mat-icon>
+    </button>
+  </mat-card-actions>
 </mat-card>

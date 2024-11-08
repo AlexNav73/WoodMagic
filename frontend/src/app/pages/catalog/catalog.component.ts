@@ -2,13 +2,13 @@ import { Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { AsyncPipe } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { Subject, takeUntil } from "rxjs";
 import { Store } from "@ngrx/store";
 import { Actions, ofType } from "@ngrx/effects";
 
 import { ProductComponent } from "./product/product.component";
-import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { AppState } from "../../store/app.states";
 import * as CatalogActions from "../../store/actions/catalog.actions";
 import * as ProductActions from "../../store/actions/product.actions";
@@ -19,7 +19,7 @@ const defaultPageSize: number = 10;
 @Component({
   selector: "catalog",
   standalone: true,
-  imports: [MatPaginatorModule, ProductComponent, SpinnerComponent, AsyncPipe],
+  imports: [MatPaginatorModule, MatProgressSpinnerModule, ProductComponent, AsyncPipe],
   templateUrl: "./catalog.component.html",
   styleUrl: "./catalog.component.scss",
 })
@@ -40,7 +40,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   constructor() {
     this.actions
       .pipe(
-        ofType(ProductActions.deleteProduct),
+        ofType(ProductActions.deleteSuccess),
         takeUntil(this.destroy$)
       )
       .subscribe(() => {

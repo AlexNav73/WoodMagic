@@ -70,9 +70,18 @@ export class ProductEffects {
     )
   );
 
-  DeleteSuccess$ = createEffect(() =>
+  AddToBasket$ = createEffect(() =>
     this.actions.pipe(
-      ofType(ProductActions.deleteSuccess),
-      tap(() => this.route.navigateByUrl("/")),
-    ), { dispatch: false });
+      ofType(ProductActions.addToBasket),
+      switchMap((action) => {
+        return this.catalogService.addToBasket(action.productId).pipe(
+          map(() => ProductActions.addToBasketSuccess({ productId: action.productId })),
+          catchError((error) => {
+            console.log(error);
+            return of(ProductActions.addToBasketFailed({ reason: "REASON" }));
+          })
+        );
+      })
+    )
+  );
 }
