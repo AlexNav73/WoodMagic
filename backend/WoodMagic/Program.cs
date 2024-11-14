@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 using WoodMagic;
 using WoodMagic.Endpoints;
 using WoodMagic.Persistence;
@@ -11,8 +12,7 @@ var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
 
 builder.Services.ConfigureHttpJsonOptions(options =>
@@ -22,7 +22,7 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: AllowFrontendOriginPolicy,
-                      policy => policy.WithOrigins("http://localhost:4200")
+                      policy => policy.WithOrigins("http://localhost:4200", "https://localhost:44370")
                                       .AllowAnyHeader()
                                       .AllowAnyMethod()
                                       .AllowCredentials());
@@ -57,8 +57,8 @@ app.UseStatusCodePages();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
     app.UseDeveloperExceptionPage();
 }
 
