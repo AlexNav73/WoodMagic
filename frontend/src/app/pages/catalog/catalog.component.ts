@@ -18,7 +18,6 @@ const defaultPageSize: number = 10;
 
 @Component({
   selector: "catalog",
-  standalone: true,
   imports: [MatPaginatorModule, MatProgressSpinnerModule, ProductComponent, AsyncPipe],
   templateUrl: "./catalog.component.html",
   styleUrl: "./catalog.component.scss",

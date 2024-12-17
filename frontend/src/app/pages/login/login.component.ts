@@ -16,7 +16,6 @@ import { login } from "../../store/actions/auth.actions";
 
 @Component({
   selector: "app-login",
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatButtonModule,

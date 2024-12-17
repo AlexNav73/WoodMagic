@@ -17,7 +17,6 @@ import { signUp } from "../../store/actions/auth.actions";
 
 @Component({
   selector: "sign-up",
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatButtonModule,

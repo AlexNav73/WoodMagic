@@ -10,7 +10,6 @@ import * as AuthActions from "../../store/actions/auth.actions";
 
 @Component({
   selector: "app-auth",
-  standalone: true,
   imports: [
     MatButtonModule,
     RouterLink,

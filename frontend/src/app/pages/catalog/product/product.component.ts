@@ -16,14 +16,13 @@ import * as ProductActions from "../../../store/actions/product.actions";
 
 @Component({
   selector: "product",
-  standalone: true,
   imports: [
     MatCardModule,
     MatChipsModule,
     MatButtonModule,
     MatIcon,
     RouterLink,
-    AsyncPipe,
+    AsyncPipe
   ],
   templateUrl: "./product.component.html",
   styleUrl: "./product.component.scss",

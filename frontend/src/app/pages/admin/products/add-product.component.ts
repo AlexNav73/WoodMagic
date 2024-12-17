@@ -14,7 +14,6 @@ import { EditProductBaseComponent } from "./edit-product-base.component";
 
 @Component({
   selector: "add-product",
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatButtonModule,

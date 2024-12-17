@@ -11,7 +11,6 @@ import { MatInputModule } from "@angular/material/input";
 
 @Component({
   selector: "edit-product-base",
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatButtonModule,

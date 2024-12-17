@@ -15,7 +15,6 @@ import { CatalogService } from "../../../services/catalog.service";
 
 @Component({
   selector: "edit-product",
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatButtonModule,

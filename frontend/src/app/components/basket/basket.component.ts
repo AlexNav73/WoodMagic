@@ -11,7 +11,6 @@ import * as ProductActions from '../../store/actions/product.actions';
 
 @Component({
   selector: 'basket',
-  standalone: true,
   imports: [
     MatButtonModule,
     MatBadgeModule,
