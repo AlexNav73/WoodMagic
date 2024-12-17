@@ -35,13 +35,14 @@ export class ProductComponent {
 
   info: InputSignal<Product | undefined> = input();
 
-  isAdmin$ = this.store.select((x) => x.auth.isAdmin);
-
   id = computed(() => this.info()?.id);
   name = computed(() => this.info()?.name);
   price = computed(() => this.info()?.price);
 
+  isAdmin$ = this.store.select((x) => x.auth.isAdmin);
+
   isProcessing: boolean = false;
+  isInBasket: boolean = false;
 
   constructor() {
     const actions = inject(Actions);
@@ -51,6 +52,11 @@ export class ProductComponent {
       takeUntil(this.destroy$)
     )
       .subscribe(() => this.isProcessing = false);
+
+    this.store.select((x) => x.basket.products).pipe(
+      takeUntil(this.destroy$)
+    )
+      .subscribe((products) => products.includes(this.id()!));
   }
 
   onDelete() {

@@ -25,5 +25,9 @@ export const reducer = createReducer(
     on(
         ProductActions.addToBasketFailed,
         (state) => ({ ...state, isLocked: false })
+    ),
+    on(
+        ProductActions.refreshBasketSuccess,
+        (state, payload) => ({ ...state, products: payload.products })
     )
 );

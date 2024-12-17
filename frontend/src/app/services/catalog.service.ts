@@ -50,10 +50,4 @@ export class CatalogService {
       params: { id },
     });
   }
-
-  public addToBasket(productId: string): Observable<HttpResponse<unknown>> {
-    return this.http.post(`products/${productId}/basket/add`, {}, {
-      observe: "response"
-    });
-  }
 }

@@ -8,6 +8,7 @@ using WoodMagic.Models;
     PreferredObjectCreationHandling = JsonObjectCreationHandling.Populate,
     WriteIndented = true)]
 [JsonSerializable(typeof(Guid))]
+[JsonSerializable(typeof(List<Guid>))]
 [JsonSerializable(typeof(User))]
 [JsonSerializable(typeof(ProductList))]
 [JsonSerializable(typeof(Product))]

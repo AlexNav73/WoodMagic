@@ -15,6 +15,4 @@ public interface IProductService
     Task<List<Product>> LoadAsync(int page, int count);
 
     Task<int> DeleteAsync(Guid id);
-
-    Task AddToBasket(Guid userId, Guid productId);
 }

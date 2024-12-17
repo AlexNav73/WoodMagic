@@ -15,5 +15,6 @@ public static class ServiceCollectionExtensions
     public static void AddPersistenceServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<IProductService, ProductService>();
+        serviceCollection.AddTransient<IBasketService, BasketService>();
     }
 }

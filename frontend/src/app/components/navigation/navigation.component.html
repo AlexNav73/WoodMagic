@@ -7,30 +7,23 @@
         <span matListItemTitle>Home</span>
       </mat-list-item>
       @if (isAdmin$ | async) {
-        <mat-list-item
-          routerLink="/product/add"
-          routerLinkActive="activebutton"
-        >
-          <mat-icon matListItemIcon>home</mat-icon>
-          <span matListItemTitle>Add New Product</span>
-        </mat-list-item>
+      <mat-list-item routerLink="/product/add" routerLinkActive="activebutton">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Add New Product</span>
+      </mat-list-item>
       }
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar class="mat-elevation-z3" color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-      >
+      <button type="button" mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
       <span routerLink="/">Wood Magic</span>
 
       <span class="toolbar-spacer"></span>
 
+      <basket></basket>
       <app-auth></app-auth>
     </mat-toolbar>
 

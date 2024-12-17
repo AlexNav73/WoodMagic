@@ -12,8 +12,10 @@
     <a mat-button [routerLink]='["/product/edit", id()]'>Edit</a>
     <button mat-button (click)="onDelete()">Delete</button>
     }
+    @if (!isInBasket) {
     <button class="add-to-cart-button" mat-fab (click)="onAddToCart()" [disabled]="isProcessing">
       <mat-icon>add_shopping_cart</mat-icon>
     </button>
+    }
   </mat-card-actions>
 </mat-card>

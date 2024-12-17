@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { RouterLink } from "@angular/router";
 import { MatButtonModule } from "@angular/material/button";
 import { AsyncPipe } from "@angular/common";
 
@@ -14,7 +14,6 @@ import * as AuthActions from "../../store/actions/auth.actions";
   imports: [
     MatButtonModule,
     RouterLink,
-    RouterLinkActive,
     AsyncPipe,
   ],
   templateUrl: "./auth.component.html",

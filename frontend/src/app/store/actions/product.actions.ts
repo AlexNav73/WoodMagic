@@ -18,6 +18,9 @@ export enum ProductActionTypes {
   REMOVE_FROM_BASKET = "[Product] Remove From Basket",
   REMOVE_FROM_BASKET_SUCCESS = "[Product] Remove From Basket SUCCESS",
   REMOVE_FROM_BASKET_FAILURE = "[Product] Remove From Basket FAILURE",
+  REFRESH_BASKET = "[Product] Refresh Basket",
+  REFRESH_BASKET_SUCCESS = "[Product] Refresh Basket SUCCESS",
+  REFRESH_BASKET_FAILURE = "[Product] Refresh Basket FAILURE",
 }
 
 export const create = createAction(
@@ -66,4 +69,16 @@ export const addToBasketFailed = createAction(
 export const removeFromBasket = createAction(
   ProductActionTypes.REMOVE_FROM_BASKET,
   props<{ productId: string; }>()
+);
+
+export const refreshBasket = createAction(
+  ProductActionTypes.REFRESH_BASKET
+);
+export const refreshBasketSuccess = createAction(
+  ProductActionTypes.REFRESH_BASKET_SUCCESS,
+  props<{ products: string[] }>()
+);
+export const refreshBasketFailed = createAction(
+  ProductActionTypes.REFRESH_BASKET_FAILURE,
+  props<{ reason: string }>()
 );

@@ -6,11 +6,13 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 
 import { CatalogService } from "../../services/catalog.service";
 import * as ProductActions from "../actions/product.actions";
+import { BasketService } from "../../services/basket.service";
 
 @Injectable()
 export class ProductEffects {
   private actions = inject(Actions);
   private catalogService = inject(CatalogService);
+  private basketService = inject(BasketService);
   private route = inject(Router);
 
   Create$ = createEffect(() =>
@@ -74,13 +76,28 @@ export class ProductEffects {
     this.actions.pipe(
       ofType(ProductActions.addToBasket),
       switchMap((action) => {
-        return this.catalogService.addToBasket(action.productId).pipe(
+        return this.basketService.addToBasket(action.productId).pipe(
           map(() => ProductActions.addToBasketSuccess({ productId: action.productId })),
           catchError((error) => {
             console.log(error);
             return of(ProductActions.addToBasketFailed({ reason: "REASON" }));
           })
         );
+      })
+    )
+  );
+
+  RefreshBasket$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(ProductActions.refreshBasket),
+      switchMap((action) => {
+        return this.basketService.getAll().pipe(
+          map((products) => ProductActions.refreshBasketSuccess({ products })),
+          catchError((error) => {
+            console.log(error);
+            return of(ProductActions.refreshBasketFailed({ reason: "REASON" }));
+          })
+        )
       })
     )
   );

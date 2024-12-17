@@ -28,7 +28,6 @@ public static class AuthorizationEndpoints
 
             return Results.Problem("The body should be an empty object");
         })
-        .WithName("Logout")
         .WithOpenApi()
         .RequireAuthorization();
 
@@ -51,7 +50,6 @@ public static class AuthorizationEndpoints
 
             return Results.Ok(new UserInfo(userId, email, isAdmin));
         })
-        .WithName("GetUser")
         .WithOpenApi()
         .RequireAuthorization();
 
