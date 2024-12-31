@@ -7,10 +7,12 @@
         <span matListItemTitle>Home</span>
       </mat-list-item>
       @if (isAdmin$ | async) {
-      <mat-list-item routerLink="/product/add" routerLinkActive="activebutton">
-        <mat-icon matListItemIcon>home</mat-icon>
-        <span matListItemTitle>Add New Product</span>
-      </mat-list-item>
+        <mat-list-item
+          routerLink="/product/add"
+          routerLinkActive="activebutton">
+          <mat-icon matListItemIcon>home</mat-icon>
+          <span matListItemTitle>Add New Product</span>
+        </mat-list-item>
       }
     </mat-nav-list>
   </mat-sidenav>

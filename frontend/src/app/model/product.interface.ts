@@ -4,5 +4,5 @@ export interface Product {
   imageUrl: string;
   price: number;
   rate: number;
-  state: "Started" | "Finished";
+  state: 'Started' | 'Finished';
 }

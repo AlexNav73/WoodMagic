@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
-using WoodMagic.Core.Model;
 using WoodMagic.Endpoints;
+using WoodMagic.Model;
 using WoodMagic.Models;
 
 [JsonSourceGenerationOptions(

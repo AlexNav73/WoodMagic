@@ -1,15 +1,19 @@
 <div class="container">
   <div class="product-list">
     @if (isLoading$ | async) {
-    <mat-spinner></mat-spinner>
+      <mat-spinner></mat-spinner>
     } @else {
-    @for (product of products$ | async; track $index) {
-    <product [info]="product"></product>
-    }
+      @for (product of products$ | async; track $index) {
+        <product [info]="product"></product>
+      }
     }
   </div>
 
-  <mat-paginator [length]="length$ | async" [pageSize]="pageSize" [pageIndex]="pageIndex"
-    [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageSet($event)">
+  <mat-paginator
+    [length]="length$ | async"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="onPageSet($event)">
   </mat-paginator>
 </div>

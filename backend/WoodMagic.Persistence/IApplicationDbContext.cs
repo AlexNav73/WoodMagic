@@ -9,5 +9,7 @@ public interface IApplicationDbContext
 
     DbSet<User> Users { get; }
 
+    DbSet<Basket> Baskets { get; }
+
     Task<int> SaveChangesAsync(CancellationToken token = default);
 }

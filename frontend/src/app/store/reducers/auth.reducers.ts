@@ -1,6 +1,6 @@
-import { createReducer, on } from "@ngrx/store";
+import { createReducer, on } from '@ngrx/store';
 
-import * as AuthActions from "../actions/auth.actions";
+import * as AuthActions from '../actions/auth.actions';
 
 export const initialState: State = {
   isAuthenticated: false,
@@ -23,34 +23,25 @@ export interface State {
 
 export const reducer = createReducer(
   initialState,
-  on(
-    AuthActions.loginSuccess,
-    (state, payload) => ({
-      ...state,
-      isAuthenticated: true,
-      email: payload.email,
-    }),
-  ),
-  on(
-    AuthActions.loginFailed,
-    (state, error) => ({ ...state, errorMessage: error.reason }),
-  ),
-  on(
-    AuthActions.signUpFailed,
-    (state, error) => ({ ...state, errorMessage: error.reason }),
-  ),
-  on(
-    AuthActions.logoutSuccess,
-    () => initialState,
-  ),
-  on(
-    AuthActions.getUserInfoSuccess,
-    (state, payload) => ({
-      ...state,
-      isAuthenticated: true,
-      isAdmin: payload.isAdmin,
-      id: payload.id,
-      email: payload.email,
-    }),
-  ),
+  on(AuthActions.loginSuccess, (state, payload) => ({
+    ...state,
+    isAuthenticated: true,
+    email: payload.email,
+  })),
+  on(AuthActions.loginFailed, (state, error) => ({
+    ...state,
+    errorMessage: error.reason,
+  })),
+  on(AuthActions.signUpFailed, (state, error) => ({
+    ...state,
+    errorMessage: error.reason,
+  })),
+  on(AuthActions.logoutSuccess, () => initialState),
+  on(AuthActions.getUserInfoSuccess, (state, payload) => ({
+    ...state,
+    isAuthenticated: true,
+    isAdmin: payload.isAdmin,
+    id: payload.id,
+    email: payload.email,
+  }))
 );

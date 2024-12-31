@@ -1,7 +1,3 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace WoodMagic.Core.Model;
 
-namespace WoodMagic.Core.Model
-{
-    [JsonConverter(typeof(JsonStringEnumConverter<State>))]
-    public enum State { Started, Finished }
-}
+public enum State { Started, Finished }

@@ -7,9 +7,9 @@ namespace WoodMagic.Persistence;
 
 public sealed class ApplicationDbContext : IdentityDbContext<User, Role, Guid>, IApplicationDbContext
 {
-    public DbSet<Product> Products { get; set; }
+    public required DbSet<Product> Products { get; set; }
 
-    public DbSet<Basket> Baskets { get; set; }
+    public required DbSet<Basket> Baskets { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
         base(options)

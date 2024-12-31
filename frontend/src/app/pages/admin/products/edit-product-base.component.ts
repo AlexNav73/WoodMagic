@@ -1,16 +1,16 @@
-import { CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: "edit-product-base",
+  selector: 'edit-product-base',
   imports: [
     ReactiveFormsModule,
     MatButtonModule,
@@ -18,14 +18,14 @@ import { MatInputModule } from "@angular/material/input";
     MatInputModule,
     CommonModule,
   ],
-  templateUrl: "./edit-product-base.component.html",
-  styleUrl: "./edit-product-base.component.scss",
+  templateUrl: './edit-product-base.component.html',
+  styleUrl: './edit-product-base.component.scss',
 })
 export abstract class EditProductBaseComponent {
   private fb = inject(NonNullableFormBuilder);
 
   form = this.fb.group({
-    name: this.fb.control<string>("", Validators.required),
+    name: this.fb.control<string>('', Validators.required),
     price: this.fb.control<number>(0, Validators.required),
   });
 

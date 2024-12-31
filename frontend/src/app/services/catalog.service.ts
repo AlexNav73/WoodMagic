@@ -1,16 +1,16 @@
-import { HttpClient, HttpResponse } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
-import { Product } from "../model/product.interface";
+import { Product } from '../model/product.interface';
 
 interface ProductList {
   products: Product[];
   count: number;
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class CatalogService {
   private http = inject(HttpClient);
 
@@ -23,7 +23,7 @@ export class CatalogService {
       params = { ...params, count };
     }
 
-    return this.http.get<ProductList>("products/load", {
+    return this.http.get<ProductList>('products/load', {
       params,
     });
   }
@@ -33,21 +33,25 @@ export class CatalogService {
   }
 
   public create(product: Product): Observable<HttpResponse<unknown>> {
-    return this.http.post("products/add", product, {
-      observe: "response",
+    return this.http.post('products/add', product, {
+      observe: 'response',
     });
   }
 
   public update(product: Product): Observable<HttpResponse<unknown>> {
-    return this.http.post("products/update", product, {
-      observe: "response",
+    return this.http.post('products/update', product, {
+      observe: 'response',
     });
   }
 
   public delete(id: string): Observable<HttpResponse<unknown>> {
-    return this.http.post("products/delete", {}, {
-      observe: "response",
-      params: { id },
-    });
+    return this.http.post(
+      'products/delete',
+      {},
+      {
+        observe: 'response',
+        params: { id },
+      }
+    );
   }
 }

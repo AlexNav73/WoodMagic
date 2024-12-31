@@ -22,7 +22,7 @@ internal sealed class ProductService : IProductService
             .Take(count)
             .Select(p => new Product()
             {
-                Id = p.Id.ToString(),
+                Id = p.Id,
                 Name = p.Name,
                 ImageUrl = p.ImageUrl,
                 Price = p.Price,
@@ -42,7 +42,7 @@ internal sealed class ProductService : IProductService
             .Where(p => p.Id == id)
             .Select(p => new Product()
             {
-                Id = p.Id.ToString(),
+                Id = p.Id,
                 Name = p.Name,
                 ImageUrl = p.ImageUrl,
                 Price = p.Price,
@@ -55,24 +55,20 @@ internal sealed class ProductService : IProductService
     {
         await _dbContext.Products.AddAsync(new Entities.Product()
         {
-            Id = Guid.TryParse(product.Id ?? string.Empty, out var guid) ? guid : Guid.NewGuid(),
+            Id = product.Id,
             Name = product.Name ?? string.Empty,
             ImageUrl = product.ImageUrl,
             Price = product.Price,
             Rate = product.Rate
         });
+
         await _dbContext.SaveChangesAsync();
     }
 
     public Task<int> UpdateAsync(Product product)
     {
-        if (!Guid.TryParse(product.Id ?? string.Empty, out var productId))
-        {
-            return Task.FromResult(0);
-        }
-
         return _dbContext.Products
-            .Where(x => x.Id == productId)
+            .Where(x => x.Id == product.Id)
             .ExecuteUpdateAsync(p => p
                 .SetProperty(x => x.Name, product.Name)
                 .SetProperty(x => x.Price, product.Price));

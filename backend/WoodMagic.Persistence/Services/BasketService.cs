@@ -20,15 +20,16 @@ internal sealed class BasketService : IBasketService
             .ToListAsync();
     }
 
-    public async Task AddToBasket(Guid userId, Guid productId)
+    public async Task<bool> AddToBasket(Guid userId, Guid productId)
     {
+        var itemWasAdded = false;
         var isAlreadyAdded = await _dbContext.Products
             .Where(x => x.Id == productId && x.Baskets.Any(b => b.UserId == userId))
             .AnyAsync();
 
         if (isAlreadyAdded)
         {
-            return;
+            return itemWasAdded;
         }
 
         var user = await _dbContext.Users
@@ -49,6 +50,52 @@ internal sealed class BasketService : IBasketService
 
             user.Basket.Products.Add(product);
 
+            await _dbContext.SaveChangesAsync();
+
+            itemWasAdded = true;
+        }
+
+        return itemWasAdded;
+    }
+
+    public async Task<bool> RemoveFromBasket(Guid userId, Guid productId)
+    {
+        var itemWasRemoved = false;
+        var product = await _dbContext.Products
+            .Where(x => x.Id == productId && x.Baskets.Any(b => b.UserId == userId))
+            .SingleOrDefaultAsync();
+
+        if (product is null)
+        {
+            return itemWasRemoved;
+        }
+
+        var user = await _dbContext.Users
+            .Include(x => x.Basket)
+                .ThenInclude(x => x!.Products)
+            .Where(x => x.Id == userId)
+            .SingleOrDefaultAsync();
+
+        if (user is { Basket: not null })
+        {
+            user.Basket.Products.Remove(product);
+
+            await _dbContext.SaveChangesAsync();
+
+            itemWasRemoved = true;
+        }
+
+        return itemWasRemoved;
+    }
+
+    public async Task Clear(Guid userId)
+    {
+        var basket = await _dbContext.Baskets
+            .Where(x => x.UserId == userId)
+            .FirstOrDefaultAsync();
+        if (basket is not null)
+        {
+            _dbContext.Baskets.Remove(basket);
             await _dbContext.SaveChangesAsync();
         }
     }

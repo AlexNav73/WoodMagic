@@ -2,7 +2,7 @@
   "lint": {
     "exclude": [".angular"],
     "rules": {
-      "exclude": []
-    }
-  }
+      "exclude": [],
+    },
+  },
 }

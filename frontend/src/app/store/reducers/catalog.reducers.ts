@@ -1,7 +1,7 @@
-import { createReducer, on } from "@ngrx/store";
+import { createReducer, on } from '@ngrx/store';
 
-import { Product } from "../../model/product.interface";
-import * as CatalogActions from "../actions/catalog.actions";
+import { Product } from '../../model/product.interface';
+import * as CatalogActions from '../actions/catalog.actions';
 
 export const initialState: State = {
   isLoading: false,
@@ -19,25 +19,16 @@ export interface State {
 
 export const reducer = createReducer(
   initialState,
-  on(
-    CatalogActions.load,
-    (state) => ({ ...state, isLoading: true }),
-  ),
-  on(
-    CatalogActions.loadSuccess,
-    (state, payload) => ({
-      ...state,
-      isLoading: false,
-      products: payload.products,
-      count: payload.count,
-    }),
-  ),
-  on(
-    CatalogActions.loadFailed,
-    (state, error) => ({
-      ...state,
-      isLoading: false,
-      errorMessage: error.reason,
-    }),
-  ),
+  on(CatalogActions.load, state => ({ ...state, isLoading: true })),
+  on(CatalogActions.loadSuccess, (state, payload) => ({
+    ...state,
+    isLoading: false,
+    products: payload.products,
+    count: payload.count,
+  })),
+  on(CatalogActions.loadFailed, (state, error) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: error.reason,
+  }))
 );

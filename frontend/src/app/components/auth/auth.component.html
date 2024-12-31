@@ -1,10 +1,10 @@
 <span class="user-name">{{ email$ | async }}</span>
 @if (isAdmin$ | async) {
-<span class="user-name">Admin</span>
+  <span class="user-name">Admin</span>
 }
 @if (isAuthenticated$ | async) {
-<button mat-stroked-button (click)="onLogout()">Logout</button>
+  <button mat-stroked-button (click)="onLogout()">Logout</button>
 } @else {
-<a mat-stroked-button routerLink="/login">Login</a>
-<a mat-flat-button routerLink="/register">Register</a>
+  <a mat-stroked-button routerLink="/login">Login</a>
+  <a mat-flat-button routerLink="/register">Register</a>
 }

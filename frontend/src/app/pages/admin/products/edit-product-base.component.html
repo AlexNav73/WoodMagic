@@ -5,10 +5,10 @@
       <input matInput type="text" formControlName="name" required />
       <div
         *ngIf="name.invalid && (name.dirty || name.touched)"
-        class="alert alert-danger"
-      >
+        class="alert alert-danger">
         <mat-error *ngIf="name.hasError('required')"
-        >This field is required</mat-error>
+          >This field is required</mat-error
+        >
       </div>
     </mat-form-field>
     <mat-form-field appearance="outline">
@@ -16,10 +16,10 @@
       <input matInput type="number" formControlName="price" required />
       <div
         *ngIf="price.invalid && (price.dirty || price.touched)"
-        class="alert alert-danger"
-      >
+        class="alert alert-danger">
         <mat-error *ngIf="price.hasError('required')"
-        >This field is required</mat-error>
+          >This field is required</mat-error
+        >
       </div>
     </mat-form-field>
 

@@ -1,8 +1,8 @@
-﻿namespace WoodMagic.Persistence.Entities;
+﻿namespace WoodMagic.Model;
 
 public sealed class Product
 {
-    public Guid Id { get; set; }
+    public string? Id { get; set; }
 
     public required string Name { get; set; }
 
@@ -13,6 +13,4 @@ public sealed class Product
     public int Rate { get; set; }
 
     public State State { get; set; }
-
-    public List<Basket> Baskets { get; set; } = new();
 }
