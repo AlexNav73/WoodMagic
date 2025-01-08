@@ -82,14 +82,14 @@ export class ProductEffects {
     this.actions.pipe(
       ofType(ProductActions.addToBasket),
       switchMap(action => {
-        return this.basketService.addToBasket(action.productId).pipe(
+        return this.basketService.addToBasket(action.product.id).pipe(
           map(result => {
             if (!result) {
               return ProductActions.addToBasketAlreadyAdded();
             }
 
             return ProductActions.addToBasketSuccess({
-              productId: action.productId,
+              product: action.product,
             });
           }),
           catchError(error => {

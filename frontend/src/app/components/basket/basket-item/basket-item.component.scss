@@ -1,0 +1,31 @@
+.container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  margin-left: 30px;
+  border-bottom: 1px solid rgb(175, 171, 171);
+  padding: 2px 0px;
+  align-items: center;
+}
+
+.middle-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-price {
+  justify-self: end;
+  align-self: center;
+}
+
+.delete-button {
+  color: blue;
+}
+
+.actions {
+  display: flex;
+  gap: 3px;
+}
+
+.amount {
+  width: 50px;
+}

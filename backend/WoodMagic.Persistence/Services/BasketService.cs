@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WoodMagic.Core.Model;
 using WoodMagic.Core.Services;
 
 namespace WoodMagic.Persistence.Services;
@@ -12,11 +13,17 @@ internal sealed class BasketService : IBasketService
         _dbContext = dbContext;
     }
 
-    public Task<List<Guid>> GetProductsFromBusket(Guid userId)
+    public Task<List<ProductInfo>> GetProductsFromBusket(Guid userId)
     {
         return _dbContext.Users
             .Where(x => x.Id == userId && x.Basket != null)
-            .SelectMany(x => x.Basket!.Products.Select(y => y.Id))
+            .SelectMany(x => x.Basket!.Products)
+            .Select(x => new ProductInfo()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price,
+            })
             .ToListAsync();
     }
 

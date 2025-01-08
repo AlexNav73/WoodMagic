@@ -1,6 +1,6 @@
 <mat-card class="product-card" appearance="outlined">
   <mat-card-header> </mat-card-header>
-  <mat-card-content [routerLink]="['/product', info().id]">
+  <mat-card-content [routerLink]="['/product', info().id, info().name]">
     {{ info().name }}
   </mat-card-content>
   <mat-card-footer class="product-card-footer">
@@ -14,20 +14,15 @@
     @if (isAuthenticated$ | async) {
       @if (!(isInBasket$ | async)) {
         <button
-          class="add-to-cart-button"
+          class="cart-button"
           mat-fab
           (click)="onAddToCart()"
           [disabled]="isProcessing">
           <mat-icon>add_shopping_cart</mat-icon>
         </button>
       } @else {
-        <input
-          type="number"
-          min="1"
-          [value]="quantity"
-          (input)="onQuantityChanged($event)" />
         <button
-          class="add-to-cart-button"
+          class="cart-button"
           mat-fab
           (click)="onRemoveFromCart()"
           [disabled]="isProcessing">

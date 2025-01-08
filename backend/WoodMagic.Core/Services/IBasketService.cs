@@ -1,8 +1,10 @@
-﻿namespace WoodMagic.Core.Services;
+﻿using WoodMagic.Core.Model;
+
+namespace WoodMagic.Core.Services;
 
 public interface IBasketService
 {
-    Task<List<Guid>> GetProductsFromBusket(Guid userId);
+    Task<List<ProductInfo>> GetProductsFromBusket(Guid userId);
 
     Task<bool> AddToBasket(Guid userId, Guid productId);
     

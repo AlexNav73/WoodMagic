@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WoodMagic.Core.Services;
+using WoodMagic.Extensions;
+using WoodMagic.Model;
 
 namespace WoodMagic.Endpoints;
 
@@ -57,7 +59,7 @@ public static class BasketEndpoints
         return TypedResults.Ok();
     }
 
-    private static async Task<Results<Ok<List<Guid>>, UnauthorizedHttpResult>> GetProductsFromBasket(
+    private static async Task<Results<Ok<List<ProductInfo>>, UnauthorizedHttpResult>> GetProductsFromBasket(
         [FromServices] IBasketService basketService,
         ClaimsPrincipal user)
     {
@@ -69,7 +71,7 @@ public static class BasketEndpoints
 
         var products = await basketService.GetProductsFromBusket(Guid.Parse(userId));
 
-        return TypedResults.Ok(products);
+        return TypedResults.Ok(products.Select(x => x.Map()).ToList());
     }
 
     private static async Task<Results<Ok<bool>, UnauthorizedHttpResult>> AddProduct(

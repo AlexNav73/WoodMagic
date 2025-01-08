@@ -1,0 +1,17 @@
+<div class="container">
+  <mat-checkbox
+    [checked]="checked()"
+    (change)="update($event.checked)"
+    [indeterminate]="indeterminate()">
+    <span>Basket ({{ basketItems().length }})</span>
+  </mat-checkbox>
+  @for (item of basketItems(); track item) {
+    <basket-item
+      [id]="item.product.id"
+      [name]="item.product.name"
+      [price]="item.product.price"
+      [(checked)]="item.checked">
+    </basket-item>
+  }
+  <span class="summary">Total: {{ total() }}</span>
+</div>

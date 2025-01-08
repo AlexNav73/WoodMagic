@@ -11,10 +11,16 @@
   justify-content: right;
 }
 
-.add-to-cart-button {
-  width: 42px;
+.cart-button {
+  width: 32px;
   height: 32px;
 
   --mdc-fab-container-color: #7d7def;
   --mat-fab-foreground-color: #f9f9f9;
+}
+
+.cart-button .mat-icon {
+  font-size: 18px;
+
+  align-content: center;
 }

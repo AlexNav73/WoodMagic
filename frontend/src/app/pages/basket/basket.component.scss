@@ -1,0 +1,12 @@
+.container {
+  border: 1px solid gray;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.summary {
+  display: flex;
+  justify-content: flex-end;
+  font-weight: bold;
+  margin-top: 10px;
+}

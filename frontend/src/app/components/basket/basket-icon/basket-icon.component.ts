@@ -8,16 +8,23 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { AppState } from '../../store/app.states';
-import * as ProductActions from '../../store/actions/product.actions';
+import { AppState } from '../../../store/app.states';
+import * as ProductActions from '../../../store/actions/product.actions';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'basket',
-  imports: [MatButtonModule, MatBadgeModule, MatIconModule, AsyncPipe],
-  templateUrl: './basket.component.html',
-  styleUrl: './basket.component.scss',
+  selector: 'basket-icon',
+  imports: [
+    MatButtonModule,
+    MatBadgeModule,
+    MatIconModule,
+    RouterLink,
+    AsyncPipe,
+  ],
+  templateUrl: './basket-icon.component.html',
+  styleUrl: './basket-icon.component.scss',
 })
-export class BasketComponent {
+export class BasketIconComponent {
   private store: Store<AppState> = inject(Store<AppState>);
   private destroy$ = inject(DestroyRef);
 

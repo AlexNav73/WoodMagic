@@ -6,3 +6,9 @@ export interface Product {
   rate: number;
   state: 'Started' | 'Finished';
 }
+
+export interface ProductInfo {
+  id: string;
+  name: string;
+  price: number;
+}

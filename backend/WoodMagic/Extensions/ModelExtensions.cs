@@ -1,4 +1,6 @@
-﻿namespace WoodMagic.Extensions;
+﻿using WoodMagic.Model;
+
+namespace WoodMagic.Extensions;
 
 public static class ModelExtensions
 {
@@ -45,6 +47,16 @@ public static class ModelExtensions
             Core.Model.State.Started => Model.State.Started,
             Core.Model.State.Finished => Model.State.Finished,
             _ => throw new NotSupportedException(),
+        };
+    }
+
+    public static ProductInfo Map(this Core.Model.ProductInfo productInfo)
+    {
+        return new ProductInfo()
+        {
+            Id = productInfo.Id.ToString(),
+            Name = productInfo.Name,
+            Price = productInfo.Price
         };
     }
 }

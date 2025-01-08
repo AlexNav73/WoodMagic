@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 
 import { AuthComponent } from '../auth/auth.component';
 import { AppState } from '../../store/app.states';
-import { BasketComponent } from '../basket/basket.component';
+import { BasketIconComponent } from '../basket/basket-icon/basket-icon.component';
 
 @Component({
   selector: 'app-navigation',
@@ -29,7 +29,7 @@ import { BasketComponent } from '../basket/basket.component';
     RouterLinkActive,
     AuthComponent,
     AsyncPipe,
-    BasketComponent,
+    BasketIconComponent,
   ],
 })
 export class NavigationComponent {

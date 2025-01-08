@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Product } from '../../model/product.interface';
+import { Product, ProductInfo } from '../../model/product.interface';
 
 export enum ProductActionTypes {
   CREATE = '[Product] Create',
@@ -53,11 +53,11 @@ export const deleteFailed = createAction(
 
 export const addToBasket = createAction(
   ProductActionTypes.ADD_TO_BASKET,
-  props<{ productId: string }>()
+  props<{ product: ProductInfo }>()
 );
 export const addToBasketSuccess = createAction(
   ProductActionTypes.ADD_TO_BASKET_SUCCESS,
-  props<{ productId: string }>()
+  props<{ product: ProductInfo }>()
 );
 export const addToBasketAlreadyAdded = createAction(
   ProductActionTypes.ADD_TO_BASKET_ALREADY_ADDED
@@ -83,7 +83,7 @@ export const removeFromBasketFailed = createAction(
 export const refreshBasket = createAction(ProductActionTypes.REFRESH_BASKET);
 export const refreshBasketSuccess = createAction(
   ProductActionTypes.REFRESH_BASKET_SUCCESS,
-  props<{ products: string[] }>()
+  props<{ products: ProductInfo[] }>()
 );
 export const refreshBasketFailed = createAction(
   ProductActionTypes.REFRESH_BASKET_FAILURE,

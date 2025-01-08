@@ -12,9 +12,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { map } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 
@@ -45,10 +45,9 @@ export class ProductComponent {
   isAuthenticated$ = this.store.select(x => x.auth.isAuthenticated);
   isInBasket$ = this.store
     .select(x => x.basket.products)
-    .pipe(map(products => products.includes(this.info().id!)));
+    .pipe(map(products => products.map(x => x.id).includes(this.info().id!)));
 
   isProcessing: boolean = false;
-  quantity: number = 1;
 
   constructor() {
     const actions = inject(Actions);
@@ -74,7 +73,13 @@ export class ProductComponent {
   onAddToCart() {
     this.isProcessing = true;
     this.store.dispatch(
-      ProductActions.addToBasket({ productId: this.info().id! })
+      ProductActions.addToBasket({
+        product: {
+          id: this.info().id!,
+          name: this.info().name,
+          price: this.info().price,
+        },
+      })
     );
   }
 
@@ -83,12 +88,5 @@ export class ProductComponent {
     this.store.dispatch(
       ProductActions.removeFromBasket({ productId: this.info().id! })
     );
-  }
-
-  onQuantityChanged(event: Event) {
-    const inputElem = event.target as HTMLInputElement;
-    this.quantity = +inputElem.value;
-
-    // TODO: process quantity change
   }
 }

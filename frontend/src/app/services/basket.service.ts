@@ -3,6 +3,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
+import { ProductInfo } from '../model/product.interface';
+
 @Injectable({ providedIn: 'root' })
 export class BasketService {
   private http = inject(HttpClient);
@@ -15,8 +17,8 @@ export class BasketService {
     return this.http.post<boolean>(`basket/remove/${productId}`, {});
   }
 
-  public getAll(): Observable<string[]> {
-    return this.http.get<string[]>('basket/get-all');
+  public getAll(): Observable<ProductInfo[]> {
+    return this.http.get<ProductInfo[]>('basket/get-all');
   }
 
   public clear(): Observable<HttpResponse<unknown>> {

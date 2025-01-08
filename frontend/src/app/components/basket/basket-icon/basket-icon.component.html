@@ -1,11 +1,9 @@
 @if (isAuthenticated$ | async) {
   <button
-    type="button"
-    class="basket"
+    routerLink="/basket"
     mat-icon-button
     [matBadge]="productsCount$ | async"
-    matBadgePosition="after"
-    (click)="onClick()">
+    matBadgePosition="after">
     <mat-icon>shopping_basket</mat-icon>
   </button>
 }
