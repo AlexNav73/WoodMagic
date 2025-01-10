@@ -14,6 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
+builder.Services.AddGraphQLServer()
+    .AddWoodMagicTypes()
+    .AddFiltering()
+    .AddProjections();
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
@@ -31,6 +35,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddApplicationDbContext(
     options => options.UseSqlite(builder.Configuration.GetConnectionString("Default"),
     x => x.MigrationsAssembly("WoodMagic.Persistence")));
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(Constants.AdminAccessPolicy, policy => policy.RequireRole(Constants.Roles.Admin));
@@ -75,4 +80,6 @@ app.MapAuthorizationEndpoints();
 app.MapProductsEndpoints();
 app.MapBasketEndpoints();
 
-app.Run();
+app.MapGraphQL();
+
+await app.RunWithGraphQLCommandsAsync(args);

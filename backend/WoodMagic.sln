@@ -9,12 +9,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoodMagic.Core", "WoodMagic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoodMagic.Persistence", "WoodMagic.Persistence\WoodMagic.Persistence.csproj", "{0FF9B68E-52B8-43A8-A0D3-79219B7A0CD2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{C822BB7E-3580-44DB-899E-C678B4033431}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C822BB7E-3580-44DB-899E-C678B4033431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C822BB7E-3580-44DB-899E-C678B4033431}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B385875A-6704-4ADD-9BD2-F30F9A8D1A60}.Release|Any CPU.ActiveCfg = Release|Any CPU

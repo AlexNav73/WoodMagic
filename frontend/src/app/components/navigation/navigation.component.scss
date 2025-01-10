@@ -31,11 +31,18 @@ mat-list-item:hover {
   margin: 0rem 0.3rem;
 }
 
-.activebutton {
+.active-button {
   border: 0px solid #020202;
   border-width: 0px 0px 0px 3px;
 }
 
 .toolbar-spacer {
   flex: 1 1 auto;
+}
+
+.actions {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  gap: 5px;
 }

@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.states';
 import { ProductInfo } from '../../model/product.interface';
 import { BasketItemComponent } from '../../components/basket/basket-item/basket-item.component';
+import * as ProductActions from '../../store/actions/product.actions';
 
 class BasketItem {
   public checked = signal(false);
@@ -57,6 +58,10 @@ export class BasketComponent {
     return checked && unchecked;
   });
 
+  readonly summaryItems = computed(() => {
+    return this.basketItems().filter(x => x.checked());
+  });
+
   constructor() {
     this.store
       .select(x => x.basket.products)
@@ -76,5 +81,9 @@ export class BasketComponent {
       prev.forEach(item => item.checked.set(checked));
       return [...prev];
     });
+  }
+
+  onCheckout() {
+    this.store.dispatch(ProductActions.clearBasket());
   }
 }

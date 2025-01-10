@@ -32,8 +32,8 @@ public static class BasketEndpoints
 
     private static async Task<Results<Ok<bool>, UnauthorizedHttpResult>> Remove(
         [FromServices] IBasketService basketService,
-        ClaimsPrincipal user,
-        [FromRoute] Guid productId)
+        [FromRoute] Guid productId,
+        ClaimsPrincipal user)
     {
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId is null)
@@ -46,7 +46,9 @@ public static class BasketEndpoints
         return TypedResults.Ok(result);
     }
 
-    private static async Task<Results<Ok, UnauthorizedHttpResult>> Clear([FromServices] IBasketService basketService, ClaimsPrincipal user)
+    private static async Task<Results<Ok, UnauthorizedHttpResult>> Clear(
+        [FromServices] IBasketService basketService,
+        ClaimsPrincipal user)
     {
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId is null)

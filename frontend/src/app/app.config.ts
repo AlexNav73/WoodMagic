@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideZoneChangeDetection,
+  inject,
+} from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -7,8 +11,12 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
+
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
+import { provideApollo } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
 
 import { routes } from './app.routes';
 
@@ -32,5 +40,15 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideStore(reducers),
     provideEffects(AuthEffects, CatalogEffects, ProductEffects),
+    provideApollo(() => {
+      const httpLink = inject(HttpLink);
+
+      return {
+        link: httpLink.create({
+          uri: `graphql`,
+        }),
+        cache: new InMemoryCache(),
+      };
+    }),
   ],
 };

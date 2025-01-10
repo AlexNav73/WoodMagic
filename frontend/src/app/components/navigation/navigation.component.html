@@ -2,14 +2,14 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport autosize>
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <mat-list-item routerLink="/" routerLinkActive="activebutton">
+      <mat-list-item routerLink="/" routerLinkActive="active-button">
         <mat-icon matListItemIcon>home</mat-icon>
         <span matListItemTitle>Home</span>
       </mat-list-item>
       @if (isAdmin$ | async) {
         <mat-list-item
           routerLink="/product/add"
-          routerLinkActive="activebutton">
+          routerLinkActive="active-button">
           <mat-icon matListItemIcon>home</mat-icon>
           <span matListItemTitle>Add New Product</span>
         </mat-list-item>
@@ -23,10 +23,10 @@
       </button>
       <span routerLink="/">Wood Magic</span>
 
-      <span class="toolbar-spacer"></span>
-
-      <basket-icon></basket-icon>
-      <app-auth></app-auth>
+      <div class="actions">
+        <basket-icon></basket-icon>
+        <app-auth></app-auth>
+      </div>
     </mat-toolbar>
 
     <!-- Main content -->

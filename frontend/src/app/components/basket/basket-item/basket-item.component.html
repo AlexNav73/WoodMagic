@@ -7,7 +7,12 @@
   <div class="middle-column">
     <a [routerLink]="['/product', id(), name()]">{{ name() }}</a>
     <div class="actions">
-      <input type="number" class="amount" min="1" [(value)]="amount" />
+      <input
+        type="number"
+        class="amount"
+        min="1"
+        [value]="amount()"
+        (change)="onAmountChanged($event)" />
       <a class="delete-button" (click)="onRemove()">Delete</a>
     </div>
   </div>

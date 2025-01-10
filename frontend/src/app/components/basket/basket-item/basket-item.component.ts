@@ -27,8 +27,9 @@ export class BasketItemComponent {
     this.checked.set(value);
   }
 
-  onAmountChanged(value: number) {
-    this.amount.set(value);
+  onAmountChanged(event: Event) {
+    const input = <HTMLInputElement>event.target;
+    this.amount.set(+input.value);
   }
 
   onRemove() {

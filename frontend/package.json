@@ -1,14 +1,15 @@
 {
   "name": "frontend",
   "version": "0.0.0",
-  "packageManager": "yarn@4.5.0+sha512.837566d24eec14ec0f5f1411adb544e892b3454255e61fdef8fd05f3429480102806bac7446bc9daff3896b01ae4b62d00096c7e989f1596f2af10b927532f39",
+  "packageManager": "yarn@4.6.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:frontend": "node dist/frontend/server/server.mjs"
+    "serve:ssr:frontend": "node dist/frontend/server/server.mjs",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "private": true,
   "dependencies": {
@@ -24,9 +25,13 @@
     "@angular/platform-server": "^19.0.4",
     "@angular/router": "^19.0.4",
     "@angular/ssr": "^19.0.5",
+    "@apollo/client": "^3.0.0",
+    "@graphql-codegen/cli": "5.0.3",
     "@ngrx/effects": "^18.1.0",
     "@ngrx/store": "^18.1.0",
+    "apollo-angular": "8.0.0",
     "express": "^4.18.2",
+    "graphql": "^16",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -35,6 +40,11 @@
     "@angular-devkit/build-angular": "^19.0.5",
     "@angular/cli": "^19.0.5",
     "@angular/compiler-cli": "^19.0.4",
+    "@graphql-codegen/cli": "5.0.3",
+    "@graphql-codegen/introspection": "4.0.3",
+    "@graphql-codegen/typescript": "^4.1.2",
+    "@graphql-codegen/typescript-operations": "^4.4.0",
+    "@graphql-codegen/typescript-apollo-angular": "4.0.0",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
