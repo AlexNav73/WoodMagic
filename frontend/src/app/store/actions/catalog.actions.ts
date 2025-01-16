@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Product } from '../../model/product.interface';
+import { ProductInfo } from '../../model/product.interface';
 
 export enum CatalogActionTypes {
   LOAD = '[Catalog] Load',
@@ -9,11 +9,11 @@ export enum CatalogActionTypes {
 
 export const load = createAction(
   CatalogActionTypes.LOAD,
-  props<{ page?: number; count?: number }>()
+  props<{ page: number; count: number }>()
 );
 export const loadSuccess = createAction(
   CatalogActionTypes.LOAD_SUCCESS,
-  props<{ products: Product[]; count: number }>()
+  props<{ products: ProductInfo[]; count: number }>()
 );
 export const loadFailed = createAction(
   CatalogActionTypes.LOAD_FAILURE,

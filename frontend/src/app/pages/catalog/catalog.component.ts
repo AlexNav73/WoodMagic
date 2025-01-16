@@ -74,7 +74,10 @@ export class CatalogComponent implements OnInit {
 
         this.pageIndex = page ?? defaultPageIndex;
         this.pageSize = count ?? defaultPageSize;
-        this.store.dispatch(CatalogActions.load({ page, count }));
+
+        this.store.dispatch(
+          CatalogActions.load({ page: this.pageIndex, count: this.pageSize })
+        );
       });
   }
 

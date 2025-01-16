@@ -18,7 +18,7 @@ import { map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 
-import { Product } from '../../../model/product.interface';
+import { ProductInfo } from '../../../model/product.interface';
 import { AppState } from '../../../store/app.states';
 import * as ProductActions from '../../../store/actions/product.actions';
 
@@ -39,7 +39,7 @@ export class ProductComponent {
   private store: Store<AppState> = inject(Store<AppState>);
   private destroy$ = inject(DestroyRef);
 
-  info = input.required<Product>();
+  info = input.required<ProductInfo>();
 
   isAdmin$ = this.store.select(x => x.auth.isAdmin);
   isAuthenticated$ = this.store.select(x => x.auth.isAuthenticated);

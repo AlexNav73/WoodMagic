@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Product } from '../model/product.interface';
+import { Product, ProductInfo } from '../model/product.interface';
 
 interface ProductList {
   products: Product[];
@@ -38,7 +38,7 @@ export class CatalogService {
     });
   }
 
-  public update(product: Product): Observable<HttpResponse<unknown>> {
+  public update(product: ProductInfo): Observable<HttpResponse<unknown>> {
     return this.http.post('products/update', product, {
       observe: 'response',
     });

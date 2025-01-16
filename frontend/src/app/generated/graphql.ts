@@ -42,6 +42,12 @@ export type BooleanOperationFilterInput = {
   neq?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type CreateProductInput = {
+  imageUrl?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  price: Scalars['Float']['input'];
+};
+
 export type DateTimeOperationFilterInput = {
   eq?: InputMaybe<Scalars['DateTime']['input']>;
   gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -99,6 +105,28 @@ export type ListFilterInputTypeOfProductFilterInput = {
   any?: InputMaybe<Scalars['Boolean']['input']>;
   none?: InputMaybe<ProductFilterInput>;
   some?: InputMaybe<ProductFilterInput>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createProduct: Scalars['UUID']['output'];
+  deleteProduct: Scalars['Int']['output'];
+  updateProduct: Scalars['Int']['output'];
+};
+
+
+export type MutationCreateProductArgs = {
+  input: CreateProductInput;
+};
+
+
+export type MutationDeleteProductArgs = {
+  id: Scalars['UUID']['input'];
+};
+
+
+export type MutationUpdateProductArgs = {
+  input: UpdateProductInput;
 };
 
 /** Information about pagination in a connection. */
@@ -159,7 +187,14 @@ export type ProductsEdge = {
 
 export type Query = {
   __typename?: 'Query';
+  productById?: Maybe<Product>;
+  productCount: Scalars['Int']['output'];
   products?: Maybe<ProductsConnection>;
+};
+
+
+export type QueryProductByIdArgs = {
+  id: Scalars['UUID']['input'];
 };
 
 
@@ -196,6 +231,12 @@ export type StringOperationFilterInput = {
   nstartsWith?: InputMaybe<Scalars['String']['input']>;
   or?: InputMaybe<Array<StringOperationFilterInput>>;
   startsWith?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateProductInput = {
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+  price: Scalars['Float']['input'];
 };
 
 export type User = {
@@ -254,19 +295,25 @@ export type UuidOperationFilterInput = {
   nlte?: InputMaybe<Scalars['UUID']['input']>;
 };
 
-export type GetProductsQueryVariables = Exact<{
-  name: Scalars['String']['input'];
+export type GetProductByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
 }>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductsConnection', nodes?: Array<{ __typename?: 'Product', name: string }> | null } | null };
+export type GetProductByIdQuery = { __typename?: 'Query', productById?: { __typename?: 'Product', name: string, price: number } | null };
 
-export const GetProductsDocument = gql`
-    query GetProducts($name: String!) {
-  products(where: {name: {contains: $name}}) {
-    nodes {
-      name
-    }
+export type GetAllProductsQueryVariables = Exact<{
+  count: Scalars['Int']['input'];
+}>;
+
+
+export type GetAllProductsQuery = { __typename?: 'Query', totalCount: number, items?: { __typename?: 'ProductsConnection', nodes?: Array<{ __typename?: 'Product', id: any, name: string, price: number }> | null } | null };
+
+export const GetProductByIdDocument = gql`
+    query GetProductById($id: UUID!) {
+  productById(id: $id) {
+    name
+    price
   }
 }
     `;
@@ -274,8 +321,31 @@ export const GetProductsDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class GetProductsGQL extends Apollo.Query<GetProductsQuery, GetProductsQueryVariables> {
-    document = GetProductsDocument;
+  export class GetProductByIdGQL extends Apollo.Query<GetProductByIdQuery, GetProductByIdQueryVariables> {
+    document = GetProductByIdDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetAllProductsDocument = gql`
+    query GetAllProducts($count: Int!) {
+  items: products(first: $count) {
+    nodes {
+      id
+      name
+      price
+    }
+  }
+  totalCount: productCount
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAllProductsGQL extends Apollo.Query<GetAllProductsQuery, GetAllProductsQueryVariables> {
+    document = GetAllProductsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

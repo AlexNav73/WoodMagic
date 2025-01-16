@@ -1,0 +1,17 @@
+query GetProductById($id: UUID!) {
+  productById(id: $id) {
+    name
+    price
+  }
+}
+
+query GetAllProducts($count: Int!) {
+  items: products(first: $count) {
+    nodes {
+      id
+      name
+      price
+    }
+  }
+  totalCount: productCount
+}

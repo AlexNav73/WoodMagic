@@ -5,21 +5,23 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { CatalogService } from '../../services/catalog.service';
 import * as CatalogActions from '../actions/catalog.actions';
+import { GetAllProductsGQL } from '../../generated/graphql';
 
 @Injectable()
 export class CatalogEffects {
   private actions = inject(Actions);
   private catalogService = inject(CatalogService);
+  private getAllProducts = inject(GetAllProductsGQL);
 
   Load$ = createEffect(() =>
     this.actions.pipe(
       ofType(CatalogActions.load),
       switchMap(action => {
-        return this.catalogService.load(action.page, action.count).pipe(
-          map(products => {
+        return this.getAllProducts.fetch({ count: action.count! }).pipe(
+          map(result => {
             return CatalogActions.loadSuccess({
-              products: products.products,
-              count: products.count,
+              products: result.data.items?.nodes!,
+              count: result.data.totalCount,
             });
           }),
           catchError(error => {

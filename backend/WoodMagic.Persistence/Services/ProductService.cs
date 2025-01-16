@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WoodMagic.Core.Inputs;
 using WoodMagic.Core.Model;
 using WoodMagic.Core.Services;
+using WoodMagic.Persistence.Extensions;
 
 namespace WoodMagic.Persistence.Services;
 
@@ -51,27 +53,30 @@ internal sealed class ProductService : IProductService
             .FirstOrDefaultAsync();
     }
 
-    public async Task CreateAsync(Product product)
+    public async Task<Guid> CreateAsync(CreateProductInput product)
     {
-        await _dbContext.Products.AddAsync(new Entities.Product()
+        var entry = await _dbContext.Products.AddAsync(new Entities.Product()
         {
-            Id = product.Id,
-            Name = product.Name ?? string.Empty,
-            ImageUrl = product.ImageUrl,
+            Id = Guid.NewGuid(),
+            Name = product.Name,
+            ImageUrl = product.ImageUrl ?? string.Empty,
             Price = product.Price,
-            Rate = product.Rate
+            Rate = 0,
+            State = Entities.State.Started
         });
 
         await _dbContext.SaveChangesAsync();
+
+        return entry.Entity.Id;
     }
 
-    public Task<int> UpdateAsync(Product product)
+    public Task<int> UpdateAsync(UpdateProductInput input)
     {
         return _dbContext.Products
-            .Where(x => x.Id == product.Id)
+            .Where(x => x.Id == input.Id)
             .ExecuteUpdateAsync(p => p
-                .SetProperty(x => x.Name, product.Name)
-                .SetProperty(x => x.Price, product.Price));
+                .SetProperty(x => x.Name, input.Name)
+                .SetProperty(x => x.Price, input.Price));
     }
 
     public Task<int> DeleteAsync(Guid id)

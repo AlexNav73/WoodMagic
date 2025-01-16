@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
+using WoodMagic.Core.Inputs;
 using WoodMagic.Endpoints;
 using WoodMagic.Model;
 using WoodMagic.Models;
@@ -13,6 +14,7 @@ using WoodMagic.Models;
 [JsonSerializable(typeof(ProductList))]
 [JsonSerializable(typeof(Product))]
 [JsonSerializable(typeof(ProductInfo))]
+[JsonSerializable(typeof(UpdateProductInput))]
 [JsonSerializable(typeof(List<ProductInfo>))]
 [JsonSerializable(typeof(UserInfo))]
 [JsonSerializable(typeof(HttpValidationProblemDetails))]

@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using WoodMagic;
 using WoodMagic.Endpoints;
+using WoodMagic.Mutations;
 using WoodMagic.Persistence;
 using WoodMagic.Persistence.Entities;
+using WoodMagic.Queries;
 using WoodMagic.Services;
 
 var AllowFrontendOriginPolicy = "_allowFrontendOriginPolicy";

@@ -20,8 +20,6 @@ partial class Build : NukeBuild
 
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
-    [GitRepository]
-    readonly GitRepository GitRepository;
 
     [PathVariable("yarn")]
     readonly Tool Yarn;
@@ -34,21 +32,27 @@ partial class Build : NukeBuild
     Target Compile => _ => _
         .Executes(() =>
         {
-            DotNetBuild(c => c.SetProjectFile(Solution.WoodMagic));
+            DotNetBuild(c => c
+                .SetProjectFile(Solution.WoodMagic)
+                .SetConfiguration(Configuration));
         });
 
-    // dotnet run -- schema export --output ../../frontend/schema.graphql
     Target GenerateGraphQLScheme => _ => _
         .Executes(() =>
         {
+            // dotnet run -- schema export --output ../../frontend/schema.graphql
+
             DotNetRun(c => c
                 .SetProjectFile(Solution.WoodMagic)
                 .AddApplicationArguments("schema")
                 .AddApplicationArguments("export")
                 .AddApplicationArguments("--output")
                 .AddApplicationArguments("../../frontend/schema.graphql"));
-
-            Yarn("run codegen", workingDirectory: Frontend, logger: (t, log) => Serilog.Log.Information(log));
         });
 
+    Target GenerateTypescript => _ => _
+        .Executes(() =>
+        {
+            Yarn("run codegen", workingDirectory: Frontend, logger: (t, log) => Serilog.Log.Information(log));
+        });
 }

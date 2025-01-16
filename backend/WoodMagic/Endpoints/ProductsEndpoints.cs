@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using WoodMagic.Core.Inputs;
 using WoodMagic.Core.Services;
 using WoodMagic.Extensions;
 using WoodMagic.Model;
@@ -49,17 +50,17 @@ public static class ProductsEndpoints
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     private static async Task<Results<Ok, NotFound<Guid>, ProblemHttpResult, BadRequest<ProblemDetails>>> Update(
         [FromServices] IProductService productService,
-        [FromBody] Product product)
+        [FromBody] UpdateProductInput product)
     {
-        if (product.Id is null || !Guid.TryParse(product.Id, out var id))
-        {
-            return TypedResults.Problem("Invalid product Id");
-        }
+        //if (product.Id is null || !Guid.TryParse(product.Id, out var id))
+        //{
+        //    return TypedResults.Problem("Invalid product Id");
+        //}
 
-        var linesCount = await productService.UpdateAsync(product.MapWith(id));
+        var linesCount = await productService.UpdateAsync(product);
         if (linesCount == 0)
         {
-            return TypedResults.NotFound(id);
+            return TypedResults.NotFound(product.Id);
         }
 
         return TypedResults.Ok();
@@ -70,7 +71,12 @@ public static class ProductsEndpoints
         [FromServices] IProductService productService,
         [FromBody] Product product)
     {
-        await productService.CreateAsync(product.MapWith(Guid.NewGuid()));
+        await productService.CreateAsync(new Core.Inputs.CreateProductInput()
+        {
+            Name = product.Name,
+            ImageUrl = product.ImageUrl,
+            Price = product.Price,
+        });
 
         return TypedResults.Ok();
     }

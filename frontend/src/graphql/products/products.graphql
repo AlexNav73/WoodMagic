@@ -1,7 +1,0 @@
-query GetProducts($name: String!) {
-  products(where: { name: { contains: $name } }) {
-    nodes {
-      name
-    }
-  }
-}

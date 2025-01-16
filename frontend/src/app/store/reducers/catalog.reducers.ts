@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { Product } from '../../model/product.interface';
+import { ProductInfo } from '../../model/product.interface';
 import * as CatalogActions from '../actions/catalog.actions';
 
 export const initialState: State = {
@@ -12,7 +12,7 @@ export const initialState: State = {
 
 export interface State {
   isLoading: boolean;
-  products: Product[];
+  products: ProductInfo[];
   count: number;
   errorMessage: string | null;
 }

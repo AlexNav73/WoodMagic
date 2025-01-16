@@ -15,8 +15,8 @@ export const routes: Routes = [
   { path: 'register', component: SignUpComponent },
   { path: 'basket', component: BasketComponent },
   { path: 'product/add', component: AddProductComponent },
-  { path: 'product/:id/:name', component: ProductDetailsComponent },
   { path: 'product/edit/:id', component: EditProductComponent },
+  { path: 'product/:id/:name', component: ProductDetailsComponent },
   { path: '', redirectTo: '/catalog', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];

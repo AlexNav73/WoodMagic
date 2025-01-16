@@ -34,7 +34,10 @@ export const createFailed = createAction(
   props<{ reason: string }>()
 );
 
-export const update = createAction(ProductActionTypes.UPDATE, props<Product>());
+export const update = createAction(
+  ProductActionTypes.UPDATE,
+  props<ProductInfo>()
+);
 export const updateSuccess = createAction(ProductActionTypes.UPDATE_SUCCESS);
 export const updateFailed = createAction(
   ProductActionTypes.UPDATE_FAILURE,

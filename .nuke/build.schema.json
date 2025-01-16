@@ -25,7 +25,8 @@
       "type": "string",
       "enum": [
         "Compile",
-        "GenerateGraphQLScheme"
+        "GenerateGraphQLScheme",
+        "GenerateTypescript"
       ]
     },
     "Verbosity": {

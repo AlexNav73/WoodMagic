@@ -3,7 +3,11 @@ import { Component, inject, input, signal } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
-import { GetProductsGQL } from '../../../generated/graphql';
+import { GetProductByIdGQL } from '../../../generated/graphql';
+
+interface ProductInfo {
+  name: string;
+}
 
 @Component({
   selector: 'product-details',
@@ -12,20 +16,18 @@ import { GetProductsGQL } from '../../../generated/graphql';
   styleUrl: './product-details.component.scss',
 })
 export class ProductDetailsComponent {
-  private readonly apollo = inject(GetProductsGQL);
+  private readonly apollo = inject(GetProductByIdGQL);
 
   id = input.required<string>();
   name = input.required<string>();
 
-  info = signal<Observable<any>>(of({}));
+  info = signal<Observable<ProductInfo | null>>(of(null));
 
-  onClicked() {
+  constructor() {
     this.info.set(
       this.apollo
-        .fetch({
-          name: this.name(),
-        })
-        .pipe(map(res => res.data.products?.nodes?.map(x => x.name).join(', ')))
+        .fetch({ id: this.id() })
+        .pipe(map(res => res.data.productById!))
     );
   }
 }
