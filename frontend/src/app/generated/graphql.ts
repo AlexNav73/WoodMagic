@@ -20,6 +20,16 @@ export type Scalars = {
   UUID: { input: any; output: any; }
 };
 
+/** Defines when a policy shall be executed. */
+export enum ApplyPolicy {
+  /** After the resolver was executed. */
+  AfterResolver = 'AFTER_RESOLVER',
+  /** Before the resolver was executed. */
+  BeforeResolver = 'BEFORE_RESOLVER',
+  /** The policy is applied in the validation step before the execution. */
+  Validation = 'VALIDATION'
+}
+
 export type Basket = {
   __typename?: 'Basket';
   id: Scalars['UUID']['output'];
@@ -109,9 +119,17 @@ export type ListFilterInputTypeOfProductFilterInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addToBasket: Scalars['Boolean']['output'];
+  clearBasket: Scalars['Int']['output'];
   createProduct: Scalars['UUID']['output'];
   deleteProduct: Scalars['Int']['output'];
+  removeFromBasket: Scalars['Boolean']['output'];
   updateProduct: Scalars['Int']['output'];
+};
+
+
+export type MutationAddToBasketArgs = {
+  id: Scalars['UUID']['input'];
 };
 
 
@@ -121,6 +139,11 @@ export type MutationCreateProductArgs = {
 
 
 export type MutationDeleteProductArgs = {
+  id: Scalars['UUID']['input'];
+};
+
+
+export type MutationRemoveFromBasketArgs = {
   id: Scalars['UUID']['input'];
 };
 
@@ -187,9 +210,11 @@ export type ProductsEdge = {
 
 export type Query = {
   __typename?: 'Query';
+  isAdmin: Scalars['Boolean']['output'];
   productById?: Maybe<Product>;
   productCount: Scalars['Int']['output'];
   products?: Maybe<ProductsConnection>;
+  user: Array<User>;
 };
 
 
@@ -295,6 +320,49 @@ export type UuidOperationFilterInput = {
   nlte?: InputMaybe<Scalars['UUID']['input']>;
 };
 
+export type CreateProductMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  price: Scalars['Float']['input'];
+}>;
+
+
+export type CreateProductMutation = { __typename?: 'Mutation', createProduct: any };
+
+export type UpdateProductMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+  price: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateProductMutation = { __typename?: 'Mutation', updateProduct: number };
+
+export type DeleteProductMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type DeleteProductMutation = { __typename?: 'Mutation', deleteProduct: number };
+
+export type AddToBasketMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type AddToBasketMutation = { __typename?: 'Mutation', addToBasket: boolean };
+
+export type RemoveFromBasketMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveFromBasketMutation = { __typename?: 'Mutation', removeFromBasket: boolean };
+
+export type ClearBasketMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClearBasketMutation = { __typename?: 'Mutation', clearBasket: number };
+
 export type GetProductByIdQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
 }>;
@@ -309,6 +377,112 @@ export type GetAllProductsQueryVariables = Exact<{
 
 export type GetAllProductsQuery = { __typename?: 'Query', totalCount: number, items?: { __typename?: 'ProductsConnection', nodes?: Array<{ __typename?: 'Product', id: any, name: string, price: number }> | null } | null };
 
+export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserQuery = { __typename?: 'Query', isAdmin: boolean, userInfo: Array<{ __typename?: 'User', id: any, email?: string | null }> };
+
+export type GetAllProductsFromBasketQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllProductsFromBasketQuery = { __typename?: 'Query', user: Array<{ __typename?: 'User', basket?: { __typename?: 'Basket', products: Array<{ __typename?: 'Product', id: any, name: string, price: number }> } | null }> };
+
+export const CreateProductDocument = gql`
+    mutation CreateProduct($name: String!, $price: Float!) {
+  createProduct(input: {name: $name, price: $price, imageUrl: ""})
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateProductGQL extends Apollo.Mutation<CreateProductMutation, CreateProductMutationVariables> {
+    document = CreateProductDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateProductDocument = gql`
+    mutation UpdateProduct($id: UUID!, $name: String!, $price: Float!) {
+  updateProduct(input: {id: $id, name: $name, price: $price})
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateProductGQL extends Apollo.Mutation<UpdateProductMutation, UpdateProductMutationVariables> {
+    document = UpdateProductDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteProductDocument = gql`
+    mutation DeleteProduct($id: UUID!) {
+  deleteProduct(id: $id)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteProductGQL extends Apollo.Mutation<DeleteProductMutation, DeleteProductMutationVariables> {
+    document = DeleteProductDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddToBasketDocument = gql`
+    mutation AddToBasket($id: UUID!) {
+  addToBasket(id: $id)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddToBasketGQL extends Apollo.Mutation<AddToBasketMutation, AddToBasketMutationVariables> {
+    document = AddToBasketDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RemoveFromBasketDocument = gql`
+    mutation RemoveFromBasket($id: UUID!) {
+  removeFromBasket(id: $id)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveFromBasketGQL extends Apollo.Mutation<RemoveFromBasketMutation, RemoveFromBasketMutationVariables> {
+    document = RemoveFromBasketDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ClearBasketDocument = gql`
+    mutation ClearBasket {
+  clearBasket
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ClearBasketGQL extends Apollo.Mutation<ClearBasketMutation, ClearBasketMutationVariables> {
+    document = ClearBasketDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetProductByIdDocument = gql`
     query GetProductById($id: UUID!) {
   productById(id: $id) {
@@ -346,6 +520,50 @@ export const GetAllProductsDocument = gql`
   })
   export class GetAllProductsGQL extends Apollo.Query<GetAllProductsQuery, GetAllProductsQueryVariables> {
     document = GetAllProductsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetUserDocument = gql`
+    query GetUser {
+  userInfo: user {
+    id
+    email
+  }
+  isAdmin
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetUserGQL extends Apollo.Query<GetUserQuery, GetUserQueryVariables> {
+    document = GetUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetAllProductsFromBasketDocument = gql`
+    query GetAllProductsFromBasket {
+  user {
+    basket {
+      products {
+        id
+        name
+        price
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAllProductsFromBasketGQL extends Apollo.Query<GetAllProductsFromBasketQuery, GetAllProductsFromBasketQueryVariables> {
+    document = GetAllProductsFromBasketDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

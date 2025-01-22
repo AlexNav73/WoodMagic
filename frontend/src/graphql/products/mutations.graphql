@@ -1,0 +1,23 @@
+mutation CreateProduct($name: String!, $price: Float!) {
+  createProduct(input: { name: $name, price: $price, imageUrl: "" })
+}
+
+mutation UpdateProduct($id: UUID!, $name: String!, $price: Float!) {
+  updateProduct(input: { id: $id, name: $name, price: $price })
+}
+
+mutation DeleteProduct($id: UUID!) {
+  deleteProduct(id: $id)
+}
+
+mutation AddToBasket($id: UUID!) {
+  addToBasket(id: $id)
+}
+
+mutation RemoveFromBasket($id: UUID!) {
+  removeFromBasket(id: $id)
+}
+
+mutation ClearBasket {
+  clearBasket
+}

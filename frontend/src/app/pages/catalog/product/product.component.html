@@ -1,6 +1,8 @@
 <mat-card class="product-card" appearance="outlined">
   <mat-card-header> </mat-card-header>
-  <mat-card-content [routerLink]="['/product', info().id, info().name]">
+  <mat-card-content [routerLink]="['/product', info().id, 'info']">
+    <span>{{ info().id }}</span>
+    <br />
     <span>{{ info().name }}</span>
   </mat-card-content>
   <mat-card-footer class="product-card-footer">
@@ -8,7 +10,7 @@
   </mat-card-footer>
   <mat-card-actions class="product-card-actions">
     @if (isAdmin$ | async) {
-      <a mat-button [routerLink]="['/product/edit', info().id]">Edit</a>
+      <a mat-button [routerLink]="['/product', info().id, 'edit']">Edit</a>
       <button mat-button (click)="onDelete()">Delete</button>
     }
     @if (isAuthenticated$ | async) {

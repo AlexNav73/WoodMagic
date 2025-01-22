@@ -15,3 +15,23 @@ query GetAllProducts($count: Int!) {
   }
   totalCount: productCount
 }
+
+query GetUser {
+  userInfo: user {
+    id
+    email
+  }
+  isAdmin
+}
+
+query GetAllProductsFromBasket {
+  user {
+    basket {
+      products {
+        id
+        name
+        price
+      }
+    }
+  }
+}

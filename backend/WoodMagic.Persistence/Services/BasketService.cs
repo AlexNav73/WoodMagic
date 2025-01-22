@@ -95,7 +95,7 @@ internal sealed class BasketService : IBasketService
         return itemWasRemoved;
     }
 
-    public async Task Clear(Guid userId)
+    public async Task<int> Clear(Guid userId)
     {
         var basket = await _dbContext.Baskets
             .Where(x => x.UserId == userId)
@@ -103,7 +103,9 @@ internal sealed class BasketService : IBasketService
         if (basket is not null)
         {
             _dbContext.Baskets.Remove(basket);
-            await _dbContext.SaveChangesAsync();
+            return await _dbContext.SaveChangesAsync();
         }
+
+        return 0;
     }
 }

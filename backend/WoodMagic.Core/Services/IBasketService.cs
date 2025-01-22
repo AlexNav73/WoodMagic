@@ -10,5 +10,5 @@ public interface IBasketService
     
     Task<bool> RemoveFromBasket(Guid userId, Guid productId);
 
-    Task Clear(Guid userId);
+    Task<int> Clear(Guid userId);
 }

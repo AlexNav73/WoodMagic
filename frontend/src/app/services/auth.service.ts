@@ -1,7 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+
+import { GetUserGQL } from '../generated/graphql';
 
 type ErrorType = {
   [key: string]: string[];
@@ -24,6 +26,7 @@ export interface UserInfo {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
+  private userService = inject(GetUserGQL);
 
   logIn(email: string, password: string): Observable<HttpResponse<unknown>> {
     return this.http.post(
@@ -66,6 +69,12 @@ export class AuthService {
   }
 
   getUser(): Observable<UserInfo> {
-    return this.http.get<UserInfo>('user');
+    return this.userService.fetch().pipe(
+      map(response => ({
+        id: response.data.userInfo.at(0)?.id!,
+        email: response.data.userInfo.at(0)?.email!,
+        isAdmin: response.data.isAdmin,
+      }))
+    );
   }
 }

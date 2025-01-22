@@ -18,6 +18,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
 builder.Services.AddGraphQLServer()
     .AddWoodMagicTypes()
+    .AddAuthorization()
     .AddFiltering()
     .AddProjections();
 
@@ -78,6 +79,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(AllowFrontendOriginPolicy);
 
 app.MapIdentityApi<User>();
+
 app.MapAuthorizationEndpoints();
 app.MapProductsEndpoints();
 app.MapBasketEndpoints();
