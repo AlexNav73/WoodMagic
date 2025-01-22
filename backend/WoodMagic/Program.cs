@@ -81,8 +81,6 @@ app.UseCors(AllowFrontendOriginPolicy);
 app.MapIdentityApi<User>();
 
 app.MapAuthorizationEndpoints();
-app.MapProductsEndpoints();
-app.MapBasketEndpoints();
 
 app.MapGraphQL();
 

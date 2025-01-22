@@ -1,5 +1,4 @@
 ﻿using WoodMagic.Core.Inputs;
-using WoodMagic.Core.Model;
 
 namespace WoodMagic.Core.Services;
 
@@ -10,10 +9,4 @@ public interface IProductService
     Task<int> UpdateAsync(UpdateProductInput product);
 
     Task<int> DeleteAsync(Guid id);
-
-    Task<Product?> GetProductByIdAsync(Guid id);
-
-    Task<int> GetProductCountAsync();
-
-    Task<List<Product>> LoadAsync(int page, int count);
 }

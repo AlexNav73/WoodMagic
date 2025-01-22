@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using WoodMagic.Models;
 using WoodMagic.Services;
 
 namespace WoodMagic.Endpoints;
@@ -14,10 +13,6 @@ public static class AuthorizationEndpoints
         var app = endpoints.MapGroup("user");
 
         app.MapPost("/logout", Logout)
-           .WithOpenApi()
-           .RequireAuthorization();
-
-        app.MapGet("/", GetUserInfo)
            .WithOpenApi()
            .RequireAuthorization();
 
@@ -37,28 +32,6 @@ public static class AuthorizationEndpoints
         }
 
         return TypedResults.Unauthorized();
-    }
-
-    private static async Task<Results<Ok<UserInfo>, UnauthorizedHttpResult>> GetUserInfo(
-        [FromServices] UserManager<Persistence.Entities.User> userManger,
-        ClaimsPrincipal identity)
-    {
-        var email = identity.FindFirstValue(ClaimTypes.Email);
-        var userId = identity.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId is null || email is null)
-        {
-            return TypedResults.Unauthorized();
-        }
-
-        var user = await userManger.FindByIdAsync(userId);
-        if (user is null)
-        {
-            return TypedResults.Unauthorized();
-        }
-
-        var isAdmin = await userManger.IsInRoleAsync(user, Constants.Roles.Admin);
-
-        return TypedResults.Ok(new UserInfo(userId, email, isAdmin));
     }
 
     private static async Task<Results<Ok, ProblemHttpResult>> Logout(
